@@ -1,0 +1,82 @@
+:root {
+    cursor:default;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --text-primary: #707070;
+    --text-secondary: #083B66;
+    --bg-primary: #DB504A;
+    --bg-secondary: #06233B;
+    --bg-tertiary: #083B66;
+    color: var(--text-primary);
+    height: 100%;
+    width: 100%; 
+    font-size: 16px;
+}
+
+.title-header{
+    margin-bottom: 0px;
+    height: 50px;
+}
+.window-body{
+    height: calc(100vh - 50px);
+}
+
+/* To override user agent stylesheet */
+* {
+    margin:0px;
+	/* height: inherit;
+    width: inherit; */
+}
+
+label{
+    height: auto;
+}
+
+.form-row{
+    height: auto;
+}
+
+/* Should probably think of a better way to globally style */
+.app-window{
+    margin-left: 5rem;
+    width: calc(100% - 5rem);
+}
+
+a, button, input[type=button], input[type=submit]{
+    cursor: pointer;
+}
+
+.unselectable {
+    
+    -moz-user-select: none; 
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    -webkit-user-drag: none; 
+}
+
+@font-face {
+    font-family: "Segoe UI";
+    font-weight: 200;
+    src: local("Segoe UI Light"), local("Segoe UI");
+}
+@font-face {
+    font-family: "Segoe UI";
+    font-weight: 300;
+    src: local("Segoe UI Semilight"), local("Segoe UI");
+}
+@font-face {
+    font-family: "Segoe UI";
+    font-weight: 400;
+    src: local("Segoe UI"), local("Segoe UI");
+}
+@font-face {
+    font-family: "Segoe UI";
+    font-weight: 600;
+    src: local("Segoe UI Semibold"), local("Segoe UI");
+}
+@font-face {
+    font-family: "Segoe UI";
+    font-weight: 700;
+    src: local("Segoe UI Bold"), local("Segoe UI");
+}
