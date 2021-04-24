@@ -21,7 +21,7 @@ class AuthenticationService {
 
     // If User Doesn't Exist in Database, Register Them
     registerNewUser(user) {
-        return axios.post(`${API_URL}`, user)
+        return axios.post(`${API_URL}/register`, user)
     }
 
     //Set up state variables and axios interceptors if a login succeeds

@@ -71,7 +71,7 @@ public class JwtAuthenticationRestController {
 		}
 	}
 
-	@RequestMapping(value = "/register", method = RequestMethod.POST)
+	@PostMapping("/register")
 	public ResponseEntity<User> registerNewUser(@RequestBody User user) throws AuthenticationException {
 		return ResponseEntity.ok(jwtUserService.save(user));
 	}

@@ -25,10 +25,6 @@ public class BasicUser {
 	// Override Constructor
 	public BasicUser(User user) {
 		this.username = user.getUsername();
-		this.fname = user.getFname();
-		this.lname = user.getLname();
-		this.bio = user.getBio();
-		this.imagePath = user.getImagePath();
 	}
 
 	// Getters

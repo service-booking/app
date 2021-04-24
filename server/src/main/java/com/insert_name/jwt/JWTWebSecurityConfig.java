@@ -59,8 +59,8 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		// Disable CSRF (cross site request forgery)
 		.csrf().disable().exceptionHandling().authenticationEntryPoint(jwtUnAuth)
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-		// Allow Anyone (including unauthorised Members) access "/" and register-check
-		.and().authorizeRequests().antMatchers("/", "register-check").permitAll()
+		// Allow Anyone (including unauthorised Members) access "/", register and register-check
+		.and().authorizeRequests().antMatchers("/","/register","register-check").permitAll()
 		// This means to access anything else, the User must be Logged In
 		.anyRequest().authenticated().and().cors()
 		.and().requestMatchers().antMatchers("/jpa/**");
