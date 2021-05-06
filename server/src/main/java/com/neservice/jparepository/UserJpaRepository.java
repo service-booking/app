@@ -1,10 +1,10 @@
-package com.insert_name.jparepository;
+package com.neservice.jparepository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.insert_name.user.BasicUser;
-import com.insert_name.user.User;
+import com.neservice.user.BasicUser;
+import com.neservice.user.User;
 
 @Repository
 public interface UserJpaRepository extends JpaRepository<User, Long> {

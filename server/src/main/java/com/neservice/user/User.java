@@ -1,4 +1,4 @@
-package com.insert_name.user;
+package com.neservice.user;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

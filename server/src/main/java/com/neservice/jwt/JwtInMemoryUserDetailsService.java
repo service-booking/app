@@ -1,4 +1,4 @@
-package com.insert_name.jwt;
+package com.neservice.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.insert_name.jparepository.UserJpaRepository;
-import com.insert_name.user.User;
+import com.neservice.jparepository.UserJpaRepository;
+import com.neservice.user.User;
 
 @Service
 public class JwtInMemoryUserDetailsService implements UserDetailsService {

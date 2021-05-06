@@ -1,4 +1,4 @@
-package com.insert_name.jwt.resource;
+package com.neservice.jwt.resource;
 
 import java.util.Objects;
 
@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.insert_name.GlobalVariable;
-import com.insert_name.jwt.JwtInMemoryUserDetailsService;
-import com.insert_name.jwt.JwtTokenUtil;
-import com.insert_name.jwt.JwtUserDetails;
-import com.insert_name.user.User;
+import com.neservice.GlobalVariable;
+import com.neservice.jwt.JwtInMemoryUserDetailsService;
+import com.neservice.jwt.JwtTokenUtil;
+import com.neservice.jwt.JwtUserDetails;
+import com.neservice.user.User;
 
 @RestController
 @CrossOrigin(origins=GlobalVariable.APP_URL)

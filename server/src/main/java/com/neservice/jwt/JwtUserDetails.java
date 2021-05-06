@@ -1,4 +1,4 @@
-package com.insert_name.jwt;
+package com.neservice.jwt;
 
 import java.util.ArrayList;
 import java.util.Collection;

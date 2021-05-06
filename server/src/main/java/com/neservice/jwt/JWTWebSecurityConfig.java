@@ -1,4 +1,4 @@
-package com.insert_name.jwt;
+package com.neservice.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
