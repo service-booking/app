@@ -80,9 +80,7 @@ public class JWTWebSecurityConfig extends WebSecurityConfigurerAdapter {
 		webSecurity
 		.ignoring().antMatchers(HttpMethod.POST, authenticationPath)
 		// Anything going to /jpa/** is ignored by the Security
-		.and().ignoring().antMatchers("/jpa/**")
-		.and().ignoring().antMatchers("/h2-console/**/**");//Should not be in Production!
-
+		.and().ignoring().antMatchers("/jpa/**");
 	}
 }
 

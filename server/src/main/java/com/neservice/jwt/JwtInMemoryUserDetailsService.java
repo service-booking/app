@@ -7,14 +7,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.neservice.jparepository.UserJpaRepository;
+import com.neservice.repository.LoginRepo;
 import com.neservice.user.User;
 
 @Service
 public class JwtInMemoryUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserJpaRepository repo;
+	private LoginRepo repo;
 
 	@Autowired
 	private PasswordEncoder bCryptEncoder;
@@ -26,7 +26,7 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
 			throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
 		}
 
-		return new JwtUserDetails(user.getID(), user.getUsername(), user.getPassword(), "ROLE_USER");
+		return new JwtUserDetails(user.getUsername(), user.getPassword(), "ROLE_USER");
 	}
 
 	// Checks if the User Exists

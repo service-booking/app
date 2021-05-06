@@ -18,5 +18,5 @@ public class NEServiceApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NEServiceApplication.class, args);
 	}
-
+	
 }
