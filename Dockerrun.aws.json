@@ -4,31 +4,45 @@
         {
             "essential": true,
             "name": "backend",
-			"image": "location/ecr",
+			"image": "public.ecr.aws/t1y8h7s8/backend:latest",
             "portMappings": [
                 {
                     "containerPort": 8080,
                     "hostPort": 8080
                 }
             ],
-			"memory": 100
+			"memory": 150,
+			"secrets": [
+				{
+					"name": "JWT_TOKEN_SECRET",
+					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:JWT_TOKEN_SECRET*"
+				},
+				{
+					"name": "ACCESS_KEY",
+					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:ACCESS_KEY*"
+				},
+				{
+					"name": "SECRET_KEY",
+					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:SECRET_KEY*"
+				}				
+			]
         },
         {
             "essential": true,
             "name": "client",
-			"image": "location/ecr",
+			"image": "public.ecr.aws/t1y8h7s8/client:latest",
             "portMappings": [
                 {
                     "containerPort": 4962,
                     "hostPort": 4962
                 }
             ],
-			"memory": 100
+			"memory": 30
         },
         {
             "essential": true,
             "name": "nginx",
-			"image": "location/ecr",
+			"image": "public.ecr.aws/t1y8h7s8/nginx:latest",
             "portMappings": [
                 {
                     "containerPort": 80,
@@ -36,7 +50,7 @@
                 }
             ],
 			"links": ["client","backend"],
-			"memory": 100
+			"memory": 30
         }
     ]
 }
