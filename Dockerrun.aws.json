@@ -1,0 +1,42 @@
+{
+    "AWSEBDockerrunVersion": 2,
+    "containerDefinitions": [
+        {
+            "essential": true,
+            "name": "backend",
+			"image": "location/ecr",
+            "portMappings": [
+                {
+                    "containerPort": 8080,
+                    "hostPort": 8080
+                }
+            ],
+			"memory": 100
+        },
+        {
+            "essential": true,
+            "name": "client",
+			"image": "location/ecr",
+            "portMappings": [
+                {
+                    "containerPort": 4962,
+                    "hostPort": 4962
+                }
+            ],
+			"memory": 100
+        },
+        {
+            "essential": true,
+            "name": "nginx",
+			"image": "location/ecr",
+            "portMappings": [
+                {
+                    "containerPort": 80,
+                    "hostPort": 80
+                }
+            ],
+			"links": ["client","backend"],
+			"memory": 100
+        }
+    ]
+}
