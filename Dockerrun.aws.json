@@ -52,5 +52,6 @@
 			"links": ["client","backend"],
 			"memory": 30
         }
-    ]
+    ],
+	"executionRoleArn": "arn:aws:iam::960446364022:role/ecsTaskExecutionRole"
 }
