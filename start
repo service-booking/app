@@ -1,0 +1,5 @@
+#!/bin/bash
+cd server
+mvn clean package -DskipTests
+cd ..
+docker-compose up --build

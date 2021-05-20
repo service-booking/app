@@ -3,34 +3,38 @@
 version: '3.0'
 
 services:
-# Server
- app-server:
+# Nginx Interface 
+ nginx:
+  container_name: nginx
   build:
-   context: server
+   context: nginx
    dockerfile: Dockerfile
-  environment:
-   API_HOST: ${API_HOST}
-   SERVER_PORT: ${SERVER_PORT}
-  ports:
-   - "$SERVER_PORT:$SERVER_PORT"
+  ports: 
+   - "80:80"
   restart: always
-  networks:
-   - server
-   - client
+  depends_on:
+   - backend
 # Client
- app-client:
+ client:
+  container_name: client
   build:
    context: client
    dockerfile: Dockerfile
-  environment:
-   CLIENT_PORT: ${CLIENT_PORT}
   ports:
-   - "$CLIENT_PORT:80"
+   - "4962:4962"
   restart: always
   depends_on:
-   - app-server
-  networks:
-   - client
+   - backend
+# Server
+ backend:
+  container_name: backend
+  build:
+   context: server
+   dockerfile: Dockerfile
+  ports:
+   - "8080:8080"
+  restart: always
 networks:
- server:
+ nginx:
  client:
+ backend:
