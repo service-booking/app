@@ -1,0 +1,18 @@
+#!/bin/bash
+# Create the Backend JAR file
+cd server
+mvn clean package -DskipTests
+
+# Build the Docker Images
+cd ..
+docker-compose build
+
+# Tag the Docker Images 
+docker tag app_nginx:latest public.ecr.aws/t1y8h7s8/nginx:latest
+docker tag app_client:latest public.ecr.aws/t1y8h7s8/client:latest
+docker tag app_backend:latest public.ecr.aws/t1y8h7s8/backend:latest
+
+# Push to Elastic Container Registery
+docker push public.ecr.aws/t1y8h7s8/nginx:latest
+docker push public.ecr.aws/t1y8h7s8/client:latest
+docker push public.ecr.aws/t1y8h7s8/backend:latest

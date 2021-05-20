@@ -1,8 +1,9 @@
 {
+	"executionRoleArn": "arn:aws:iam::960446364022:role/ecsTaskExecutionRole",
     "AWSEBDockerrunVersion": 2,
     "containerDefinitions": [
         {
-            "essential": true,
+            "essential": false,
             "name": "backend",
 			"image": "public.ecr.aws/t1y8h7s8/backend:latest",
             "portMappings": [
@@ -12,23 +13,23 @@
                 }
             ],
 			"memory": 150,
-			"secrets": [
+			"secretOptions": [
 				{
 					"name": "JWT_TOKEN_SECRET",
-					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:JWT_TOKEN_SECRET*"
+					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:JWT_TOKEN_SECRET-FBuU9L"
 				},
 				{
 					"name": "ACCESS_KEY",
-					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:ACCESS_KEY*"
+					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:ACCESS_KEY-9x2wxV"
 				},
 				{
 					"name": "SECRET_KEY",
-					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:SECRET_KEY*"
+					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:SECRET_KEY-XPVRkG"
 				}				
 			]
         },
         {
-            "essential": true,
+            "essential": false,
             "name": "client",
 			"image": "public.ecr.aws/t1y8h7s8/client:latest",
             "portMappings": [
@@ -52,6 +53,5 @@
 			"links": ["client","backend"],
 			"memory": 30
         }
-    ],
-	"executionRoleArn": "arn:aws:iam::960446364022:role/ecsTaskExecutionRole"
+    ]
 }
