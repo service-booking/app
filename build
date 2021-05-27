@@ -1,4 +1,5 @@
 #!/bin/bash
+docker system prune -af
 # Create the Backend JAR file
 cd server
 mvn clean package -DskipTests

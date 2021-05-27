@@ -1,57 +1,45 @@
 {
-	"executionRoleArn": "arn:aws:iam::960446364022:role/ecsTaskExecutionRole",
     "AWSEBDockerrunVersion": 2,
+	"family": "neservice",
+    "volumes": [],
+	"networkMode": "bridge",
     "containerDefinitions": [
         {
-            "essential": false,
+            "essential": true,
             "name": "backend",
 			"image": "public.ecr.aws/t1y8h7s8/backend:latest",
+			"memory": 512,
             "portMappings": [
                 {
                     "containerPort": 8080,
                     "hostPort": 8080
                 }
-            ],
-			"memory": 150,
-			"secretOptions": [
-				{
-					"name": "JWT_TOKEN_SECRET",
-					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:JWT_TOKEN_SECRET-FBuU9L"
-				},
-				{
-					"name": "ACCESS_KEY",
-					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:ACCESS_KEY-9x2wxV"
-				},
-				{
-					"name": "SECRET_KEY",
-					"valueFrom": "arn:aws:secretsmanager:ap-southeast-2:960446364022:secret:SECRET_KEY-XPVRkG"
-				}				
-			]
+            ]
         },
         {
-            "essential": false,
+            "essential": true,
             "name": "client",
 			"image": "public.ecr.aws/t1y8h7s8/client:latest",
+			"memory": 124,
             "portMappings": [
                 {
                     "containerPort": 4962,
                     "hostPort": 4962
                 }
-            ],
-			"memory": 30
+            ]
         },
         {
             "essential": true,
             "name": "nginx",
 			"image": "public.ecr.aws/t1y8h7s8/nginx:latest",
+			"memory": 124,
+			"links": ["client","backend"],
             "portMappings": [
                 {
                     "containerPort": 80,
                     "hostPort": 80
                 }
-            ],
-			"links": ["client","backend"],
-			"memory": 30
+            ]
         }
-    ]
+    ]    
 }
