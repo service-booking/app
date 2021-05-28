@@ -1,6 +1,6 @@
 {
-  "short_name": "app-name",
-  "name": "app-name",
+  "short_name": "NEService",
+  "name": "NEService",
   "icons": [
     {
       "src": "favicon.ico",

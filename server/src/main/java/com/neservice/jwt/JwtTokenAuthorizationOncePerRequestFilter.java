@@ -1,4 +1,4 @@
-package com.insert_name.jwt;
+package com.neservice.jwt;
 
 import java.io.IOException;
 

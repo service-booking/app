@@ -1,4 +1,4 @@
-package com.insert_name;
+package com.neservice;
 
 import java.util.TimeZone;
 
@@ -8,7 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class insert_nameApplication {
+public class NEServiceApplication {
 
 	@PostConstruct
     public void init(){
@@ -16,7 +16,7 @@ public class insert_nameApplication {
     }
 	
 	public static void main(String[] args) {
-		SpringApplication.run(insert_nameApplication.class, args);
+		SpringApplication.run(NEServiceApplication.class, args);
 	}
-
+	
 }

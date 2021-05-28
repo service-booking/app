@@ -1,4 +1,4 @@
-package com.insert_name.jwt;
+package com.neservice.jwt;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -7,31 +7,31 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.insert_name.jparepository.UserJpaRepository;
-import com.insert_name.user.User;
+import com.neservice.repository.LoginRepo;
+import com.neservice.user.User;
 
 @Service
 public class JwtInMemoryUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private UserJpaRepository repo;
+	private LoginRepo repo;
 
 	@Autowired
 	private PasswordEncoder bCryptEncoder;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = repo.findByUsername(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = repo.findByEmail(email);
 		if (user == null) {
-			throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
+			throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", email));
 		}
 
-		return new JwtUserDetails(user.getID(), user.getUsername(), user.getPassword(), "ROLE_USER");
+		return new JwtUserDetails(user.getEmail(), user.getPassword(), "ROLE_USER");
 	}
 
 	// Checks if the User Exists
-	public boolean checkIfUserExists(String username) {
-		User toCheck = repo.findByUsername(username);
+	public boolean checkIfUserExists(String email) {
+		User toCheck = repo.findByEmail(email);
 		// Null Check
 		if (toCheck == null) {
 			return false;

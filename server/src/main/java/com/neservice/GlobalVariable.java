@@ -1,4 +1,4 @@
-package com.insert_name;
+package com.neservice;
 
 public class GlobalVariable {
 	// Global Variable for the Application URL

@@ -1,4 +1,4 @@
-package com.insert_name.jwt.resource;
+package com.neservice.jwt.resource;
 
 @SuppressWarnings("serial")
 public class AuthenticationException extends RuntimeException {
