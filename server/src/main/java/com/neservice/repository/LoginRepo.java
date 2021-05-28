@@ -7,5 +7,5 @@ import com.neservice.user.User;
 
 @EnableScan
 public interface LoginRepo extends CrudRepository<User, String> {
-	User findByUsername(String username);
+	User findByEmail(String email);
 }
