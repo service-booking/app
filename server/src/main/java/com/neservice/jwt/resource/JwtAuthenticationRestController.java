@@ -86,12 +86,12 @@ public class JwtAuthenticationRestController {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 	}
 
-	private void authenticate(String username, String password) {
-		Objects.requireNonNull(username);
+	private void authenticate(String email, String password) {
+		Objects.requireNonNull(email);
 		Objects.requireNonNull(password);
 
 		try {
-			authMang.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			authMang.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 		} catch (DisabledException e) {
 			throw new AuthenticationException("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {

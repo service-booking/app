@@ -20,18 +20,18 @@ public class JwtInMemoryUserDetailsService implements UserDetailsService {
 	private PasswordEncoder bCryptEncoder;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = repo.findByUsername(username);
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = repo.findByEmail(email);
 		if (user == null) {
-			throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", username));
+			throw new UsernameNotFoundException(String.format("USER_NOT_FOUND '%s'.", email));
 		}
 
-		return new JwtUserDetails(user.getUsername(), user.getPassword(), "ROLE_USER");
+		return new JwtUserDetails(user.getEmail(), user.getPassword(), "ROLE_USER");
 	}
 
 	// Checks if the User Exists
-	public boolean checkIfUserExists(String username) {
-		User toCheck = repo.findByUsername(username);
+	public boolean checkIfUserExists(String email) {
+		User toCheck = repo.findByEmail(email);
 		// Null Check
 		if (toCheck == null) {
 			return false;
