@@ -65,7 +65,8 @@ function Register_service() {
                         password: values.password,
                         address: values.address,
                         media: values.media,
-                        about: values.about
+                        about: values.about,
+                        accountType: 'service'
                     }
 
                     AuthenticationService.checkForUser(data.email).then((response) => {

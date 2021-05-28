@@ -58,7 +58,8 @@ function Register_service() {
                         lastName: values.lastName,
                         email: values.email,
                         password: values.password,
-                        postcode: values.postcode
+                        postcode: values.postcode,
+                        accountType: 'customer'
                     }
 
                     AuthenticationService.checkForUser(data.email).then((response) => {
