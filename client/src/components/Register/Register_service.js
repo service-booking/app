@@ -36,6 +36,10 @@ function Register_service() {
                         error.lastName = `Last name cannot be empty`
                     }
 
+                    if(!values.businessName){
+                        error.businessName = `Business name cannot be empty`
+                    }
+
                     if(!values.email){
                         error.email = `Email cannot be empty`
                     }
@@ -59,9 +63,10 @@ function Register_service() {
                     let output ={};
 
                     const data = {
-                        firstName: values.firstName,
-                        lastName: values.lastName,
-                        email: values.email,
+                        firstName: values.firstName.trim(),
+                        lastName: values.lastName.trim(),
+                        businessName: values.businessName.trim(),
+                        email: values.email.trim(),
                         password: values.password,
                         address: values.address,
                         media: values.media,
@@ -84,7 +89,7 @@ function Register_service() {
                                 actions.resetForm()
                                 console.log("user created")
                                 //settimeout
-                                setTimeout(() => history.push("/"), 2000);
+                                setTimeout(() => history.push("/"), 3000);
                             })
                         }
                     })
@@ -93,8 +98,12 @@ function Register_service() {
                     actions.setStatus(output)
                     actions.setSubmitting(true)
 
-                    setTimeout(() => output.message= " ", 2000);
                     setTimeout(() => actions.setStatus(output), 3000);
+                    setTimeout(() => actions.setSubmitting(false), 3000);
+
+                    values.email = ""
+                    values.password = ""
+                    setTimeout(() => output.message= "", 3000);
 
                     
                 }}
@@ -122,9 +131,19 @@ function Register_service() {
                             </div>
                         </div>
                         <ErrorMessage className="fail" name="firstName" component='div'/>
-
                         
                         <ErrorMessage className="fail" name="lastName" component='div'/>
+
+                        <div className="label-input">
+                            <label>Business name</label>
+                            <Field
+                                className="register-input"
+                                name="businessName"
+                                onChange={handleChange}
+                                value={values.businessName}
+                            />
+                        </div>
+                        <ErrorMessage className="fail" name="businessName" component='div'/>
 
                         <div className="label-input">
                             <div display="flex" flex-direction="column">
@@ -147,6 +166,7 @@ function Register_service() {
                                     name="password"
                                     onChange={handleChange}
                                     value={values.password}
+                                    type="password"
                                 />
                             </div>
                         </div>

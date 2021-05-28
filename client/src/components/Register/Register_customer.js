@@ -54,11 +54,14 @@ function Register_service() {
                 onSubmit ={async(values, actions) => {
                     let output ={};
                     const data = {
-                        firstName: values.firstName,
-                        lastName: values.lastName,
-                        email: values.email,
+                        firstName: values.firstName.trim(),
+                        lastName: values.lastName.trim(),
+                        businessName: null,
+                        email: values.email.trim(),
                         password: values.password,
-                        postcode: values.postcode,
+                        address: values.postcode,
+                        media: null,
+                        about: null,
                         accountType: 'customer'
                     }
 
@@ -77,7 +80,7 @@ function Register_service() {
                                 actions.resetForm()
                                 console.log("user created")
                                 //settimeout
-                                setTimeout(() => history.push("/"), 2000);
+                                setTimeout(() => history.push("/"), 3000);
                             })
                         }
                     })
@@ -86,8 +89,16 @@ function Register_service() {
                     actions.setStatus(output)
                     actions.setSubmitting(true)
 
-                    setTimeout(() => output.message= " ", 2000);
+        
                     setTimeout(() => actions.setStatus(output), 3000);
+                    setTimeout(() => actions.setSubmitting(false), 3000);
+                    
+
+                    values.email = ""
+                    values.password = ""
+                    setTimeout(() => output.message= "", 3000);
+
+
                 }}
             >
                 {({isSubmitting, status, handleChange, values}) => (
@@ -134,6 +145,7 @@ function Register_service() {
                                 <Field
                                     className="register-input"
                                     name="password"
+                                    type="password"
                                     onChange={handleChange}
                                     value={values.password}
                                 />

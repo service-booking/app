@@ -15,7 +15,8 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.4",
     "react-talk": "^1.0.0",
-    "reactstrap": "^8.0.1"
+    "reactstrap": "^8.0.1",
+    "styled-components": "^5.3.0"
   },
   "scripts": {
     "start": "set PORT=4962 && react-scripts start",
