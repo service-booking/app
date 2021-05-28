@@ -1,0 +1,57 @@
+.home-page{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    min-height: 100vh;
+    align-items: center;
+}
+
+.extra-container{
+  width: 40%;
+  border: solid 1px;
+  height: 80vh;
+  background: linear-gradient(#9B8BE9, #EABBBB);
+}
+
+.login-container{
+    display: flex;
+    justify-content: center;
+    width: 40%;
+    border-right: solid 1px #979797;
+    border-top: solid 1px #979797;
+    border-bottom: solid 1px #979797;
+    height: 80vh;
+    align-items: center;
+}
+
+.register-btn{
+    text-decoration: none;
+    font-size: 13px;
+    border: solid 1px #C99090;
+    background-color: #986DEA;
+    padding: 11px;
+    border-radius: 5px;
+    margin-top: 30px;
+    margin-right: 20px;
+    color: black;
+
+}
+
+.input-container{
+    margin-top: 30px;
+}
+
+.input-field{
+    background: linear-gradient(#986DEA, #DAB8F3);
+    border: solid 1px #C99090;
+    padding: 10px;
+    font: black;
+    border-radius: 5px;
+    font-family: "Raleway";
+    font-size: "xxx-large";
+}
+
+.input-field::placeholder{
+    color: black;
+
+}

@@ -6,6 +6,9 @@ import LandingComponent from '../Landing/LandingComponent.jsx'
 import RegisterComponent from '../Register/RegisterComponent.jsx'
 import HomeComponent from '../Home/HomeComponent.jsx'
 import ErrorComponent from '../Error/ErrorComponent.jsx'
+import RegisterCustomer from '../Register/Register_customer.js'
+import RegisterService from '../Register/Register_service.js'
+import RegisterLanding from '../Register/Register_landing.js'
 
 
 class BodyComponent extends Component {
@@ -16,7 +19,9 @@ class BodyComponent extends Component {
                     <>
                         <Switch>
                             <Route path="/" exact component={LandingComponent} />
-                            <Route path="/register" exact component={RegisterComponent} />
+                            <Route path="/register" exact component={RegisterLanding} />
+                            <Route path="/register-service-provider" exact component={RegisterService}></Route>
+                            <Route path="/register-customer" exact component={RegisterCustomer}></Route>
 							<AuthenticatedRoute path="/home" exact component={HomeComponent} />
 							<AuthenticatedRoute component={ErrorComponent} />
                         </Switch>
