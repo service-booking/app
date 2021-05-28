@@ -44,7 +44,7 @@ class LandingComponent extends Component {
 				this.state.username,
 				response.data.token
 			);
-			let url = "/home";
+			let url = "/dashboard";
 			this.props.history.push(url);
 		});
 	}

@@ -37,7 +37,8 @@ h1{
 }
 
 .fail{
-    color: rgb(231, 133, 133)
+    color: rgb(231, 133, 133);
+    width: 200px;
 }
 
 .label-input{

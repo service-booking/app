@@ -9,6 +9,7 @@ import ErrorComponent from '../Error/ErrorComponent.jsx'
 import RegisterCustomer from '../Register/Register_customer.js'
 import RegisterService from '../Register/Register_service.js'
 import RegisterLanding from '../Register/Register_landing.js'
+import Dashboard from '../Dashboard/DashboardHome.jsx'
 
 
 class BodyComponent extends Component {
@@ -22,6 +23,7 @@ class BodyComponent extends Component {
                             <Route path="/register" exact component={RegisterLanding} />
                             <Route path="/register-service-provider" exact component={RegisterService}></Route>
                             <Route path="/register-customer" exact component={RegisterCustomer}></Route>
+                            <AuthenticatedRoute path="/dashboard" exact component={Dashboard}></AuthenticatedRoute>
 							<AuthenticatedRoute path="/home" exact component={HomeComponent} />
 							<AuthenticatedRoute component={ErrorComponent} />
                         </Switch>
