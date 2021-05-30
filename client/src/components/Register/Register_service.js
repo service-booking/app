@@ -14,7 +14,6 @@ function Register_service() {
             </div>
             
             <Formik
-                
                 initialValues={{
                     firstName:``,
                     lastName:``,

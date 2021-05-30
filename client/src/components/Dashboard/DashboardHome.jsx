@@ -1,11 +1,21 @@
 import React from 'react'
 import Navbar from '../Navbar/Navbar.jsx'
+import styled from 'styled-components'
+
+const Main = styled.div`
+    display: flex;
+    flex-direction: row;
+`
 
 function DashboardHome() {
     return (
-        <div className="dash" dashboard>
+        <Main>
             <Navbar/>
-        </div>
+            <div>
+                <h1>Welcome to NEService</h1>
+                <h1>Upcoming appointment</h1>
+            </div>
+        </Main>
     )
 }
 
