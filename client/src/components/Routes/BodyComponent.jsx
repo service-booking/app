@@ -10,6 +10,8 @@ import RegisterCustomer from '../Register/Register_customer.js'
 import RegisterService from '../Register/Register_service.js'
 import RegisterLanding from '../Register/Register_landing.js'
 import Dashboard from '../Dashboard/DashboardHome.jsx'
+import Service from '../Service/Service_main.jsx'
+import CreateService from '../Service/Create_service.jsx'
 
 
 class BodyComponent extends Component {
@@ -24,6 +26,8 @@ class BodyComponent extends Component {
                             <Route path="/register-service-provider" exact component={RegisterService}></Route>
                             <Route path="/register-customer" exact component={RegisterCustomer}></Route>
                             <AuthenticatedRoute path="/dashboard" exact component={Dashboard}></AuthenticatedRoute>
+                            <AuthenticatedRoute path="/service" exact component={Service}></AuthenticatedRoute>
+                            <AuthenticatedRoute path="/service-create" exact component={CreateService}></AuthenticatedRoute>
 							<AuthenticatedRoute path="/home" exact component={HomeComponent} />
 							<AuthenticatedRoute component={ErrorComponent} />
                         </Switch>

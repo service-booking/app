@@ -20,8 +20,8 @@ const NavLink = styled(Link)`
 function Navbar() {
     return (
         <Nav>
-            <NavLink>History</NavLink>
-            <NavLink>My service</NavLink>
+            <NavLink to="">History</NavLink>
+            <NavLink to="/service">My service</NavLink>
         </Nav>
     )
 }
