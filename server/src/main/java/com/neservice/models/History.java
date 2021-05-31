@@ -9,7 +9,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@DynamoDBTable(tableName = "timetable")
+@DynamoDBTable(tableName = "history")
 public class History {
 	// Members of Table
 	@JsonProperty("id") private String id;
