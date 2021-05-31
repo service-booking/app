@@ -1,8 +1,11 @@
-import React from 'react'
+import React , {useState} from 'react'
 import Navbar from '../Navbar/Navbar.jsx'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import AuthenticationService from '../Authentication/AuthenticationService.js'
 import styled from 'styled-components'
+import DateTimePicker from 'react-datetime-picker'
+import axios from 'axios';
+import { JPA_URL } from '../../Constants';
 
 const Main = styled.div`
     display: flex;
@@ -23,6 +26,12 @@ const Wrapper = styled.div`
 
 function Create_service() {
 
+    const [value, onChange] = useState(new Date());
+    let sent = false;
+
+    let future = new Date(value)
+        future.setDate(future.getDate()+ 30)
+
   
     return (
         <Main>
@@ -33,10 +42,8 @@ function Create_service() {
                     initialValues={{
                         serviceName:``,
                         price:``,
-                        durationHour:``,
-                        durationMin:``,
+                        duration:``,
                         desc:``,
-                        startTime:``
                     }}
 
                     validate={(values, actions) => {
@@ -50,14 +57,12 @@ function Create_service() {
                             error.price = `Price cannot be empty`
                         }
 
-                        if(!values.durationMin){
-                            if(!values.durationHour){
-                                error.durationHour= `Please key in valid duration`
-                            }
+                        if(!values.duration){
+                                error.duration= `Please key in valid duration`
                         }
                         
-                        if((/^[0-9]*$/).test(values.durationHour) || (/^[0-9]*$/).test(values.durationMin)){
-                            error.durationHour= `Please key in valid duration`
+                        if(!(/^[0-9]*$/).test(values.duration)){
+                            error.duration= `Please key in valid duration`
                         }
 
                         if(!values.desc){
@@ -74,7 +79,25 @@ function Create_service() {
                             serviceName: values.serviceName.trim(),
                             price: parseInt(values.price.trim()),
                             duration: values.duration,
-                            desc: values.desc
+                            desc: values.desc,
+                        }
+
+                        await axios.post(`${JPA_URL}/createService`, data)
+                        .then((res) => {
+                            sent = true
+                        })
+                        .catch(
+                            err => {
+
+                            }
+                        )
+
+                        // service created redirect to service main page 
+                        if(sent === true){
+                            output.classes = "success"
+                            output.message = 'Service created !'
+                            output.type= "success"
+                            actions.resetForm()
                         }
 
                     }}
@@ -111,21 +134,14 @@ function Create_service() {
                                     <Row>
                                         <Field
                                             className="register-input"
-                                            name="durationHour"
+                                            name="duration"
                                             onChange={handleChange}
-                                            value={values.durationHour}
-                                        />
-                                        <p>hours</p>
-                                        <Field
-                                            className="register-input"
-                                            name="durationMin"
-                                            onChange={handleChange}
-                                            value={values.durationMin}
+                                            value={values.duration}
                                         />
                                         <p>min</p>
                                     </Row>
                                 </div>
-                                <ErrorMessage className="fail" name="durationHour" component='div'/>
+                                <ErrorMessage className="fail" name="duration" component='div'/>
 
                                 <div className="label-input">
                                     <label>Service description</label>
@@ -139,7 +155,15 @@ function Create_service() {
                                 </div>
                                 <ErrorMessage className="fail" name="desc" component="div"/>
 
-                                <button className="submit-btn" type="submit" >Add Service</button>
+                                <div>
+                                    <label>Service Commence date</label>
+                                    <DateTimePicker
+                                        onChange={onChange}
+                                        value={value}
+                                    />
+                                </div>
+
+                                <button className="submit-btn" type="submit" disabled={isSubmitting}>{isSubmitting? "Adding": "Add Service"}</button>
                                 {status && <div className={status.classes}>{status.message}</div>}
                             </div>
                         </Form>
