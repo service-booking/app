@@ -9,11 +9,11 @@ cd ..
 docker-compose build
 
 # Tag the Docker Images 
-docker tag app_nginx:latest public.ecr.aws/t1y8h7s8/nginx:latest
-docker tag app_client:latest public.ecr.aws/t1y8h7s8/client:latest
-docker tag app_backend:latest public.ecr.aws/t1y8h7s8/backend:latest
+docker tag app_nginx:latest public.ecr.aws/neservice/nginx:latest
+docker tag app_client:latest public.ecr.aws/neservice/client:latest
+docker tag app_backend:latest public.ecr.aws/neservice/backend:latest
 
 # Push to Elastic Container Registery
-docker push public.ecr.aws/t1y8h7s8/nginx:latest
-docker push public.ecr.aws/t1y8h7s8/client:latest
-docker push public.ecr.aws/t1y8h7s8/backend:latest
+docker push public.ecr.aws/neservice/nginx:latest
+docker push public.ecr.aws/neservice/client:latest
+docker push public.ecr.aws/neservice/backend:latest
