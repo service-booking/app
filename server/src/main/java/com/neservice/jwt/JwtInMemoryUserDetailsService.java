@@ -7,8 +7,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.neservice.models.User;
 import com.neservice.repository.LoginRepo;
-import com.neservice.user.User;
 
 @Service
 public class JwtInMemoryUserDetailsService implements UserDetailsService {

@@ -1,4 +1,4 @@
-package com.neservice.user;
+package com.neservice.models;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
@@ -109,7 +109,7 @@ public class User {
 	}
 
 	public void displayUser() {
-		System.out.println("email: "+this.email);
+		System.out.println("Email: "+this.email);
 		System.out.println("Password: "+this.password);
 		System.out.println("First Name: "+this.firstName);
 		System.out.println("Last Name: "+this.lastName);
