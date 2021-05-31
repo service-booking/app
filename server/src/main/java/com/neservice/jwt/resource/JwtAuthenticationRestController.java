@@ -25,7 +25,7 @@ import com.neservice.GlobalVariable;
 import com.neservice.jwt.JwtInMemoryUserDetailsService;
 import com.neservice.jwt.JwtTokenUtil;
 import com.neservice.jwt.JwtUserDetails;
-import com.neservice.user.User;
+import com.neservice.models.User;
 
 @RestController
 @CrossOrigin(origins=GlobalVariable.APP_URL)
