@@ -1,0 +1,8 @@
+.git
+.gitignore
+build
+client/*
+docker-compose.yml
+nginx/*
+server/*
+start
