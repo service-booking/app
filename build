@@ -1,11 +1,17 @@
 #!/bin/bash
 docker system prune -af
 # Create the Backend JAR file
-cd server
+cd server/src/main/resources/
+mv application.properties ../
+mv exposed.properties application.properties
+cd ../../..
 mvn clean package -DskipTests
+cd src/main/resources/
+mv application.properties exposed.properties
+mv ../application.properties .
 
 # Build the Docker Images
-cd ..
+cd ../../../..
 docker-compose build
 
 # Get Permissions to Write to Repository
@@ -20,3 +26,9 @@ docker tag app_backend:latest public.ecr.aws/neservice/backend:latest
 docker push public.ecr.aws/neservice/nginx:latest
 docker push public.ecr.aws/neservice/client:latest
 docker push public.ecr.aws/neservice/backend:latest
+
+# Wait a small delay
+sleep 5
+
+# Updated the Deployment
+eb deploy
