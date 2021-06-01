@@ -8,6 +8,9 @@ mvn clean package -DskipTests
 cd ..
 docker-compose build
 
+# Get Permissions to Write to Repository
+/usr/local/bin/aws ecr-public get-login-password --region us-east-1 | docker login --username AWS --password-stdin public.ecr.aws/neservice
+
 # Tag the Docker Images 
 docker tag app_nginx:latest public.ecr.aws/neservice/nginx:latest
 docker tag app_client:latest public.ecr.aws/neservice/client:latest
