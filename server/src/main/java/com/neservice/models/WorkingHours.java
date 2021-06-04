@@ -86,11 +86,11 @@ public class WorkingHours {
 
 	public void displayWorkingHours() {
 		System.out.println("Monday: "+this.monday.getStart()+" to "+this.monday.getEnd());
-		System.out.println("Monday: "+this.tuesday.getStart()+" to "+this.tuesday.getEnd());
-		System.out.println("Monday: "+this.wednesday.getStart()+" to "+this.wednesday.getEnd());
-		System.out.println("Monday: "+this.thursday.getStart()+" to "+this.thursday.getEnd());
-		System.out.println("Monday: "+this.friday.getStart()+" to "+this.friday.getEnd());
-		System.out.println("Monday: "+this.saturday.getStart()+" to "+this.saturday.getEnd());
-		System.out.println("Monday: "+this.sunday.getStart()+" to "+this.sunday.getEnd());
+		System.out.println("Tuesday: "+this.tuesday.getStart()+" to "+this.tuesday.getEnd());
+		System.out.println("Wednesday: "+this.wednesday.getStart()+" to "+this.wednesday.getEnd());
+		System.out.println("Thursday: "+this.thursday.getStart()+" to "+this.thursday.getEnd());
+		System.out.println("Friday: "+this.friday.getStart()+" to "+this.friday.getEnd());
+		System.out.println("Saturday: "+this.saturday.getStart()+" to "+this.saturday.getEnd());
+		System.out.println("Sunday: "+this.sunday.getStart()+" to "+this.sunday.getEnd());
 	}
 }

@@ -14,6 +14,7 @@ public class Service {
 	private String desc;
 	private String price;
 	private int duration;
+	private boolean status = true;
 
 	// Default Constructor
 	public Service() {
@@ -21,13 +22,14 @@ public class Service {
 	}
 	
 	// Override Constructor
-	public Service(String id, String email, String title, String desc, String price, int duration) {
+	public Service(String id, String email, String title, String desc, String price, int duration, boolean status) {
 		this.id = id;
 		this.email = email;
 		this.title = title;
 		this.desc = desc;
 		this.price = price;
 		this.duration = duration;
+		this.status = status;
 	}
 	
 	// Getters
@@ -61,6 +63,11 @@ public class Service {
 	public int getDuration() {
 		return duration;
 	}
+    
+    @DynamoDBAttribute
+	public boolean getStatus() {
+		return status;
+	}
 
 	// Setters
     public void setId(String id) {
@@ -85,6 +92,10 @@ public class Service {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
+	
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
 
 	public void displayService() {
 		System.out.println("ID: "+this.id);
@@ -93,6 +104,7 @@ public class Service {
 		System.out.println("Service Description: "+this.desc);
 		System.out.println("Service Price: "+this.price);
 		System.out.println("Service Duration: "+this.duration);
+		System.out.println("Service Status: "+this.status);
 	}
 	
 	// Comparison 

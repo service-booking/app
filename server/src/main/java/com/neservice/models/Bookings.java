@@ -6,6 +6,7 @@ public class Bookings {
 	// @id is the Service @id
 	private String reserver;
 	private String id;
+	private String price;
 	private String startTime;
 	private String endTime;
 	private String dayMonthYear;
@@ -16,9 +17,10 @@ public class Bookings {
 	}
 	
 	// Override Constructor
-	public Bookings(String reserver, String id, String startTime, String endTime, String dayMonthYear) {
+	public Bookings(String reserver, String id, String price, String startTime, String endTime, String dayMonthYear) {
 		this.reserver = reserver;
 		this.id = id;
+		this.price = price;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.dayMonthYear = dayMonthYear;
@@ -31,6 +33,10 @@ public class Bookings {
 
 	public String getId() {
 		return id;
+	}
+	
+	public String getPrice() {
+		return price;
 	}
 
 	public String getStartTime() {
@@ -53,7 +59,11 @@ public class Bookings {
 	public void setId(String id) {
 		this.id = id;
 	}
-
+	
+	public void setPrice(String price) {
+		this.price = price;
+	}
+	
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}

@@ -3,12 +3,8 @@ package com.neservice.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-@DynamoDBTable(tableName = "timetable")
 public class Timetable {
 	// Members of Table
 	@JsonProperty("email") private String email;
@@ -21,23 +17,21 @@ public class Timetable {
 	}
 	
 	// Override Constructor
-	public Timetable(String email, WorkingHours hours) {
+	public Timetable(String email, WorkingHours hours, List<Bookings> bookings) {
 		this.email = email;
 		this.hours = hours;
+		this.bookings = bookings;
 	}
 	
 	// Getters
-    @DynamoDBHashKey(attributeName="email")
 	public String getEmail() {
 		return email;
 	}
     
-    @DynamoDBAttribute
 	public WorkingHours getHours() {
 		return hours;
 	}
     
-    @DynamoDBAttribute
 	public List<Bookings> getBookings() {
 		return bookings;
 	}
@@ -50,6 +44,7 @@ public class Timetable {
 	public void setHours(WorkingHours hours) {
 		this.hours = hours;
 	}
+	
 	
 	// Array Functionality
 	public void addBooking(Bookings newBooking) {
