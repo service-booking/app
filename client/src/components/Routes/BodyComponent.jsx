@@ -26,7 +26,7 @@ class BodyComponent extends Component {
                             <Route path="/register-service-provider" exact component={RegisterService}></Route>
                             <Route path="/register-customer" exact component={RegisterCustomer}></Route>
                             <AuthenticatedRoute path="/dashboard" exact component={Dashboard}></AuthenticatedRoute>
-                            <AuthenticatedRoute path="/service" exact component={Service}></AuthenticatedRoute>
+                            <Route path="/service" exact component={Service}></Route>
                             <AuthenticatedRoute path="/service-create" exact component={CreateService}></AuthenticatedRoute>
 							<AuthenticatedRoute path="/home" exact component={HomeComponent} />
 							<AuthenticatedRoute component={ErrorComponent} />

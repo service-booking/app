@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import DateTimePicker from 'react-datetime-picker'
 import axios from 'axios';
 import { JPA_URL } from '../../Constants';
+import { useHistory } from 'react-router-dom'
 
 const Main = styled.div`
     display: flex;
@@ -31,6 +32,8 @@ function Create_service() {
 
     let future = new Date(value)
         future.setDate(future.getDate()+ 30)
+
+    let history = useHistory();
 
   
     return (
@@ -78,30 +81,35 @@ function Create_service() {
 
                     onSubmit ={async(values,actions) => {
                         let output ={};
+                        let email = sessionStorage.getItem('authenticatedUser')
                         const data ={
                             user: sessionStorage.getItem('authenticatedUser'),
-                            serviceName: values.serviceName.trim(),
+                            title: values.serviceName.trim(),
                             price: values.price.trim(),
                             duration: parseInt(values.duration.trim()),
                             desc: values.desc,
                         }
 
-                        await axios.post(`${JPA_URL}/createService`, data)
+
+
+                        await axios.post(`${JPA_URL}/${email}/create/service`, data)
                         .then((res) => {
                             sent = true
                         })
                         .catch(
                             err => {
-
+                                console.log(err)
                             }
                         )
 
                         // service created redirect to service main page 
                         if(sent === true){
                             output.classes = "success"
-                            output.message = 'Service created !'
+                            output.message = 'Service created!'
                             output.type= "success"
                             actions.resetForm()
+                            console.log('service created')
+                            history.push('/service')
                         }
 
                     }}
