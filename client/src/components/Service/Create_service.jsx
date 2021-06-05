@@ -83,7 +83,6 @@ function Create_service() {
                         let output ={};
                         let email = sessionStorage.getItem('authenticatedUser')
                         const data ={
-                            user: sessionStorage.getItem('authenticatedUser'),
                             title: values.serviceName.trim(),
                             price: values.price.trim(),
                             duration: parseInt(values.duration.trim()),
@@ -166,14 +165,6 @@ function Create_service() {
                                     </Field>
                                 </div>
                                 <ErrorMessage className="fail" name="desc" component="div"/>
-
-                                <div>
-                                    <label>Service Commence date</label>
-                                    <DateTimePicker
-                                        onChange={onChange}
-                                        value={value}
-                                    />
-                                </div>
 
                                 <button className="submit-btn" type="submit" disabled={isSubmitting}>{isSubmitting? "Adding": "Add Service"}</button>
                                 {status && <div className={status.classes}>{status.message}</div>}
