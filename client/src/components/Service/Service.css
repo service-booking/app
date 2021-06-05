@@ -1,0 +1,45 @@
+.delete-btn{
+    background-color: #7b77bd ;
+    color: white;
+    font-family: 'Raleway';
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    height: 50px;
+
+}
+
+.btn-wrap{
+    width: 50%;
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+
+}
+
+.add-btn{
+    font-family: 'Raleway';
+    border-radius: 5px;
+    color: white;
+    text-decoration: none;
+    border: solid 1px white;
+    padding: 10px;
+    margin-left: 30px;
+    transition: 1s;
+}
+
+.add-btn:hover{
+    background: rgba(255,255,255,0.5);
+    text-decoration: none;
+    color: grey;
+}
+
+.row-wrap{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.price{
+    color: #53d8cf;
+}
