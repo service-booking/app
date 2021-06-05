@@ -57,6 +57,10 @@ function Create_service() {
                             error.price = `Price cannot be empty`
                         }
 
+                        if(!(/^(0(?!\.00)|[1-9]\d{0,6})\.\d{2}$/).test(values.price)){
+                            error.price= `Please key in valid price (1.00)`
+                        }
+
                         if(!values.duration){
                                 error.duration= `Please key in valid duration`
                         }
@@ -77,8 +81,8 @@ function Create_service() {
                         const data ={
                             user: sessionStorage.getItem('authenticatedUser'),
                             serviceName: values.serviceName.trim(),
-                            price: parseInt(values.price.trim()),
-                            duration: values.duration,
+                            price: values.price.trim(),
+                            duration: parseInt(values.duration.trim()),
                             desc: values.desc,
                         }
 
