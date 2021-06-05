@@ -25,8 +25,8 @@ public class ServiceResource {
 	private ServiceRepo srepo;	
 	
 	@GetMapping("/jpa/{email}/get/service/{id}")
-	public Optional<Service> getService(@PathVariable String email, @PathVariable String id){
-		return srepo.findById(id);
+	public Service getService(@PathVariable String email, @PathVariable String id){
+		return srepo.findById(id).get();
 	}
 	
 	@GetMapping("/jpa/{email}/get/services")
@@ -54,13 +54,13 @@ public class ServiceResource {
 	
 	@DeleteMapping("/jpa/{email}/disable/service/{id}")
 	public ResponseEntity<Void> disableService(@PathVariable String email, @PathVariable String id) {
-		Optional<Service> service = srepo.findById(id);
+		Service service = srepo.findById(id).get();
 		
-		//service.get().displayService();
-		service.get().setStatus(false);
-		//service.get().displayService();
+		//service.displayService();
+		service.setStatus(false);
+		//service.displayService();
 		
-		srepo.save(service.get());
+		srepo.save(service);
 		return ResponseEntity.noContent().build();
 	}
 	
@@ -70,13 +70,13 @@ public class ServiceResource {
 			@PathVariable String id,
 			@RequestBody Service service			
 		){
-		Optional<Service> updatedService = srepo.findById(id);
-		updatedService.get().setTitle(service.getTitle());
-		updatedService.get().setDesc(service.getDesc());
-		updatedService.get().setPrice(service.getPrice());
-		updatedService.get().setDuration(service.getDuration());
+		Service updatedService = srepo.findById(id).get();
+		updatedService.setTitle(service.getTitle());
+		updatedService.setDesc(service.getDesc());
+		updatedService.setPrice(service.getPrice());
+		updatedService.setDuration(service.getDuration());
 		
-		srepo.save(updatedService.get());
+		srepo.save(updatedService);
 		return ResponseEntity.noContent().build();
 	}
 	

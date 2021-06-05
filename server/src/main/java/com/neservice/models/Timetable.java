@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Timetable {
 	// Members of Table
 	@JsonProperty("email") private String email;
 	@JsonProperty("hours") private WorkingHours hours;
 	@JsonProperty("bookings") private List<Bookings> bookings = new ArrayList<>();
+	
+	// Used to Read a JSON Document and Convert to Object
+	private ObjectMapper jmap = new ObjectMapper();
 	
 	// Default Constructor
 	public Timetable() {
@@ -21,6 +27,19 @@ public class Timetable {
 		this.email = email;
 		this.hours = hours;
 		this.bookings = bookings;
+	}
+	
+	// Override Constructor
+	public Timetable(TimetableDB db) {
+		this.email = db.getEmail();
+		try {
+			this.hours = jmap.readValue(db.getHours(), WorkingHours.class);
+			this.bookings = jmap.readValue(db.getBookings(), jmap.getTypeFactory().constructCollectionType(List.class, Bookings.class));
+		} catch (JsonMappingException e) {
+			System.out.println("System - Error Reading from Database");
+		} catch (JsonProcessingException e) {
+			System.out.println("System - Error Reading from Database");
+		}
 	}
 	
 	// Getters

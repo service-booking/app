@@ -1,8 +1,5 @@
 package com.neservice.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;

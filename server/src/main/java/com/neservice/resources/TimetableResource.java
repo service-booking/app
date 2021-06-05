@@ -1,5 +1,7 @@
 package com.neservice.resources;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,6 +15,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neservice.GlobalVariable;
+import com.neservice.models.Service;
+import com.neservice.models.Timetable;
 import com.neservice.models.TimetableDB;
 import com.neservice.models.WorkingHours;
 import com.neservice.repository.LoginRepo;
@@ -32,6 +36,10 @@ public class TimetableResource {
 	// Used to Read a JSON Document and Convert to Object
 	private ObjectMapper jmap = new ObjectMapper();
 	
+	// --------------------------------------------------------------------- //
+	// Working Hours Related Functionality
+	// --------------------------------------------------------------------- //
+	
 	// Get the Working Hours
 	@GetMapping("/jpa/{email}/get/workingHours")
 	public WorkingHours getWorkingHours(@PathVariable String email){
@@ -47,10 +55,10 @@ public class TimetableResource {
 			hours = jmap.readValue(db.getHours(), WorkingHours.class);
 			
 		} catch (JsonMappingException e) {
-			System.out.println("System - Error Updating Database");
+			System.out.println("System - Error Reading from Database");
 		}
 		catch (JsonProcessingException e) {
-			System.out.println("System - Error Updating Database");
+			System.out.println("System - Error Reading from Database");
 		}
 		
 		return hours;
@@ -91,6 +99,27 @@ public class TimetableResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	// --------------------------------------------------------------------- //
+	// Booking Functionality
+	// --------------------------------------------------------------------- //
 	
+	// Get the Bookings for the Provider
+	@GetMapping("/jpa/{email}/get/bookings")
+	public Timetable getAllBookings(@PathVariable String email){
+		return new Timetable(trepo.findByEmail(email));
+	}
 	
+	// Get the Bookings for the Service
+	@GetMapping("/jpa/{email}/get/bookings/{id}")
+	public Timetable getBookingsForService(@PathVariable String email, @PathVariable String id){
+		// Used to Store Retrieved Data to Database
+		TimetableDB tdb = null;
+		Service sdb = null;
+		Timetable ttable = null;
+		
+		// Find the Service Provider
+		sdb = srepo.findById(id).get();
+		
+		return ttable;
+	}
 }
