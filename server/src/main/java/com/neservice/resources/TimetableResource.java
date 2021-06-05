@@ -1,6 +1,7 @@
 package com.neservice.resources;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neservice.GlobalVariable;
+import com.neservice.models.Bookings;
 import com.neservice.models.Service;
 import com.neservice.models.Timetable;
 import com.neservice.models.TimetableDB;
@@ -104,22 +106,101 @@ public class TimetableResource {
 	// --------------------------------------------------------------------- //
 	
 	// Get the Bookings for the Provider
-	@GetMapping("/jpa/{email}/get/bookings")
-	public Timetable getAllBookings(@PathVariable String email){
-		return new Timetable(trepo.findByEmail(email));
+	@GetMapping("/jpa/{email}/get/bookings/provider")
+	public List<Bookings> getAllBookingsProvider(@PathVariable String email){
+		// Used to Store Retrieved Data to Database
+		Timetable ttable = new Timetable(trepo.findByEmail(email));
+		
+		return ttable.getBookings();
+	}
+	
+	// Get the Bookings for the Provider
+	@GetMapping("/jpa/{email}/get/bookings/reserver")
+	public List<Bookings> getAllBookingsReserver(@PathVariable String email){
+		// Apply O(n^2) Search through Timetable table
+		List<TimetableDB> db = new ArrayList<TimetableDB>(trepo.findAll());
+		List<Bookings> bookings = new ArrayList<Bookings>();
+
+		// Linear Search the Table Records
+		for(int i=0; i<db.size(); i++) {
+			System.out.println(db.get(i).getBookings());
+			// Convert to Usable Objcet
+			Timetable ttable = new Timetable(db.get(i));
+			List<Bookings> tbookings = ttable.getBookings();
+			// Linear Search the Booking Records
+			for(int j=0; j<tbookings.size(); j++) {
+				// Check if the Reservers match
+				if(tbookings.get(j).getReserver().equals(email)) {
+					bookings.add(tbookings.get(j));
+				}
+			}
+		}
+		
+		return bookings;
 	}
 	
 	// Get the Bookings for the Service
 	@GetMapping("/jpa/{email}/get/bookings/{id}")
-	public Timetable getBookingsForService(@PathVariable String email, @PathVariable String id){
-		// Used to Store Retrieved Data to Database
-		TimetableDB tdb = null;
-		Service sdb = null;
-		Timetable ttable = null;
+	public List<Bookings> getBookingsForService(@PathVariable String email, @PathVariable String id){
+		List<Bookings> bookings = new ArrayList<Bookings>();
 		
 		// Find the Service Provider
-		sdb = srepo.findById(id).get();
+		String provider = srepo.findById(id).get().getEmail();
 		
-		return ttable;
+		// Used to Store Retrieved Data to Database
+		Timetable ttable = new Timetable(trepo.findByEmail(provider));
+		
+		// Search for Service Bookings
+		for(int i=0; i<ttable.getBookings().size(); i++) {
+			// if the Service ID's match
+			if(ttable.getBookings().get(i).getId().equals(id)) {
+				bookings.add(ttable.getBookings().get(i));
+			}
+		}
+		
+		return bookings;
+	}
+	
+	// Create a Booking
+	@PostMapping("/jpa/{email}/create/booking/{id}")
+	public boolean createBooking(
+			@PathVariable String email, 
+			@PathVariable String id,
+			@RequestBody Bookings booking
+		){
+		
+		boolean success = true;
+		
+		// Find the Service Provider
+		Service service = srepo.findById(id).get();
+		String provider = service.getEmail();
+		String price = service.getPrice();
+		
+		// Used to Store Retrieved Data to Database
+		Timetable ttable = new Timetable(trepo.findByEmail(provider));
+
+		// Update Booking Details
+		booking.setReserver(email);
+		booking.setId(id);
+		booking.setPrice(price);
+		
+		// Check if the overlapped bookings
+		for(int i=0; i<ttable.getBookings().size(); i++) {
+			if(booking.compareTo(ttable.getBookings().get(i)) == 0) {
+				success = false;
+				break;
+			}
+		}
+		
+		// if no Overlapping Booking,
+		if(success) {
+			// Add Booking to Timetable
+			ttable.addBooking(booking);
+			
+			// Update Timetable
+			trepo.save(new TimetableDB(ttable));
+		}
+		
+		return success;
 	}
 }
