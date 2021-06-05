@@ -21,6 +21,10 @@ const NavLink = styled(Link)`
     margin-top: 10px;
     margin-bottom: 10px;
     font-size: 20px;
+    &:hover{
+        color: #8C6DD8;
+        text-decoration: none;
+    }
 `
 
 const LogoutBtn = styled.button`
@@ -32,6 +36,10 @@ const LogoutBtn = styled.button`
     background: none;
     border: none;
     font-size: 20px;
+    &:hover{
+        color: #8C6DD8;
+        text-decoration: none;
+    }
 
 `
 
@@ -47,6 +55,7 @@ const Navbar = () => {
     return (
         <Nav>
             <NavLink to="">History</NavLink>
+            <NavLink to="/dashboard">Home</NavLink>
             <NavLink to="/service">My service</NavLink>
             <LogoutBtn onClick={() => logOut()}>Log out</LogoutBtn>
         </Nav>
