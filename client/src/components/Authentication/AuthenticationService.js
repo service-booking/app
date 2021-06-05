@@ -1,7 +1,8 @@
 import axios from 'axios'
-import { API_URL } from '../../Constants'
+import { API_URL, JPA_URL } from '../../Constants'
 
 export const USER_NAME_SESSION_ATTRIBUTE_NAME = 'authenticatedUser'
+export const ROLE = 'role'
 export const TOKEN = 'token'
 
 class AuthenticationService {
@@ -23,11 +24,18 @@ class AuthenticationService {
     registerNewUser(user) {
         return axios.post(`${API_URL}/register`, user)
     }
-
+	
     //Set up state variables and axios interceptors if a login succeeds
     registerSuccessfulLoginForJwt(username, token) {
         sessionStorage.setItem(USER_NAME_SESSION_ATTRIBUTE_NAME, username)
 		sessionStorage.setItem(TOKEN, this.createJWTToken(token))
+		
+		// Add User Role to the Storage
+		axios.get(`${JPA_URL}/${username}/role`).then((response) => {
+			sessionStorage.setItem(ROLE, response.data);
+		});
+		
+		//sessionStorage.setItem(USER_ROLE, )
         this.setupAxiosInterceptors(this.createJWTToken(token))
     }
 

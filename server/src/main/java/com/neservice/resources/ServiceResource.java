@@ -2,7 +2,6 @@ package com.neservice.resources;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,17 +21,18 @@ import com.neservice.repository.ServiceRepo;
 @RestController
 public class ServiceResource {
 	@Autowired
-	private ServiceRepo srepo;	
+	private ServiceRepo repo;	
 	
 	@GetMapping("/jpa/{email}/get/service/{id}")
 	public Service getService(@PathVariable String email, @PathVariable String id){
-		return srepo.findById(id).get();
+		return repo.findById(id).get();
 	}
 	
 	@GetMapping("/jpa/{email}/get/services")
 	public List<Service> getAllServices(@PathVariable String email){
-		List<Service> services = new ArrayList<Service>(srepo.findByEmail(email));
+		List<Service> services = new ArrayList<Service>(repo.findByEmail(email));
 		
+		// Remove any of the Disabled Services
 		for(int i=0; i<services.size(); i++) {
 			if(services.get(i).getStatus() == false) {
 				services.remove(i);
@@ -44,23 +44,19 @@ public class ServiceResource {
 	
 	@PostMapping("/jpa/{email}/create/service")
 	public ResponseEntity<Void> createService(@PathVariable String email, @RequestBody Service service){
+		// Add the Provider to the Service
 		service.setEmail(email);
 		
-		service.displayService();
-		
-		srepo.save(service);
+		repo.save(service);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/jpa/{email}/disable/service/{id}")
 	public ResponseEntity<Void> disableService(@PathVariable String email, @PathVariable String id) {
-		Service service = srepo.findById(id).get();
-		
-		//service.displayService();
+		Service service = repo.findById(id).get();
 		service.setStatus(false);
-		//service.displayService();
 		
-		srepo.save(service);
+		repo.save(service);
 		return ResponseEntity.noContent().build();
 	}
 	
@@ -70,13 +66,13 @@ public class ServiceResource {
 			@PathVariable String id,
 			@RequestBody Service service			
 		){
-		Service updatedService = srepo.findById(id).get();
+		Service updatedService = repo.findById(id).get();
 		updatedService.setTitle(service.getTitle());
 		updatedService.setDesc(service.getDesc());
 		updatedService.setPrice(service.getPrice());
 		updatedService.setDuration(service.getDuration());
 		
-		srepo.save(updatedService);
+		repo.save(updatedService);
 		return ResponseEntity.noContent().build();
 	}
 	

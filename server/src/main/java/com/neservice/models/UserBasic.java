@@ -1,15 +1,9 @@
 package com.neservice.models;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
-
-@DynamoDBTable(tableName = "login")
-public class User {
+public class UserBasic {
 	// Members of Table
 	// Shared Members
 	private String email;
-	private String password;
 	private String firstName;
 	private String lastName;
 	private String accountType;
@@ -20,14 +14,13 @@ public class User {
 	private String about;
 
 	// Default Constructor
-	public User() {
+	public UserBasic() {
 		
 	}
 	
 	// Override Constructor
-	public User(String email, String password, String firstName, String lastName, String accountType, String address, String media, String about) {
+	public UserBasic(String email, String firstName, String lastName, String accountType, String address, String media, String about) {
 		this.email = email;
-		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountType = accountType;
@@ -36,43 +29,42 @@ public class User {
 		this.about = about;
 	}
 	
+	// Override Constructor
+	public UserBasic(User user) {
+		this.email = user.getEmail();
+		this.firstName = user.getFirstName();
+		this.lastName = user.getLastName();
+		this.accountType = user.getAccountType();
+		this.address = user.getAddress();
+		this.media = user.getMedia();
+		this.about = user.getAbout();
+	}
+	
 	// Getters
-    @DynamoDBHashKey(attributeName="email")
 	public String getEmail() {
 		return email;
 	}
-    
-    @DynamoDBAttribute
-	public String getPassword() {
-		return password;
-	}
-    
-    @DynamoDBAttribute
+
 	public String getFirstName() {
 		return firstName;
 	}
 
-    @DynamoDBAttribute
 	public String getLastName() {
 		return lastName;
 	}
     
-    @DynamoDBAttribute
 	public String getAccountType() {
 		return accountType;
 	}
 
-    @DynamoDBAttribute
 	public String getAddress() {
 		return address;
 	}
 
-    @DynamoDBAttribute
 	public String getMedia() {
 		return media;
 	}
 
-    @DynamoDBAttribute
 	public String getAbout() {
 		return about;
 	}
@@ -81,10 +73,7 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
+	
 	public void setFirstName(String firstName) {
 		this.firstName = firstName;
 	}
@@ -111,7 +100,6 @@ public class User {
 
 	public void displayUser() {
 		System.out.println("Email: "+this.email);
-		System.out.println("Password: "+this.password);
 		System.out.println("First Name: "+this.firstName);
 		System.out.println("Last Name: "+this.lastName);
 		System.out.println("Account Type: "+this.accountType);
@@ -126,7 +114,7 @@ public class User {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         
-        User comp = (User) o;
+        UserBasic comp = (UserBasic) o;
         return email.equals(comp.email);
     }
 }

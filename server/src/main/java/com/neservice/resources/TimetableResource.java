@@ -21,7 +21,6 @@ import com.neservice.models.Service;
 import com.neservice.models.Timetable;
 import com.neservice.models.TimetableDB;
 import com.neservice.models.WorkingHours;
-import com.neservice.repository.LoginRepo;
 import com.neservice.repository.ServiceRepo;
 import com.neservice.repository.TimetableRepo;
 
@@ -32,8 +31,6 @@ public class TimetableResource {
 	private TimetableRepo trepo;
 	@Autowired
 	private ServiceRepo srepo;
-	@Autowired
-	private LoginRepo lrepo;
 	
 	// Used to Read a JSON Document and Convert to Object
 	private ObjectMapper jmap = new ObjectMapper();
@@ -202,5 +199,27 @@ public class TimetableResource {
 		}
 		
 		return success;
+	}
+	
+	@PostMapping("/jpa/{email}/cancel/booking/{id}")
+	public ResponseEntity<Void> cancelBooking(
+			@PathVariable String email, 
+			@PathVariable String id, 
+			@RequestBody Bookings booking
+		) {
+		booking.displayBooking();
+		// Find the Service Provider
+		String provider = srepo.findById(id).get().getEmail();
+		
+		// Used to Store Retrieved Data to Database
+		Timetable ttable = new Timetable(trepo.findByEmail(provider));
+				
+		// Cancel the Booking
+		ttable.cancelBooking(booking);
+				
+		// Update Timetable
+		trepo.save(new TimetableDB(ttable));
+		
+		return ResponseEntity.noContent().build();
 	}
 }
