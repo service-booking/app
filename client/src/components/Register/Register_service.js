@@ -4,6 +4,8 @@ import './RegisterComponent.css'
 import AuthenticationService from "../Authentication/AuthenticationService.js";
 import {useHistory, useLocation} from "react-router-dom";
 import { checkServerIdentity } from 'tls';
+import axios from 'axios';
+import { JPA_URL } from '../../Constants';
 
 function Register_service() {
    
@@ -144,26 +146,28 @@ function Register_service() {
                     if(list.includes("sunday")){
                         workingHours.sunday = {start: values.sundayStart, end : values.sundayEnd }
                     } 
-                    console.log(workingHours)
-                    // AuthenticationService.checkForUser(data.email).then((response) => {
-                    //     if(response.data){
-                    //         output.type = `error`
-                    //         output.classes = "fail"
-                    //         output.message = "User exists already"
-                    //     }
-                    //     else{
-                    //         AuthenticationService.registerNewUser(data).then((response) => {
+        
+                    AuthenticationService.checkForUser(data.email).then((response) => {
+                        if(response.data){
+                            output.type = `error`
+                            output.classes = "fail"
+                            output.message = "User exists already"
+                        }
+                        else{
+                            AuthenticationService.registerNewUser(data).then((response) => {
 
-                    //             output.classes = "success"
-                    //             output.message = `User created!`
-                    //             output.type = `success`
-                    //             actions.resetForm()
-                    //             console.log("user created")
-                    //             //settimeout
-                    //             setTimeout(() => history.push("/"), 3000);
-                    //         })
-                    //     }
-                    // })
+                                axios.post(`${JPA_URL}/${data.email}/set/workingHours`, workingHours);
+        
+                                output.classes = "success"
+                                output.message = `User created!`
+                                output.type = `success`
+                                actions.resetForm()
+                                console.log("user created")
+                                //settimeout
+                                setTimeout(() => history.push("/"), 3000);
+                            })
+                        }
+                    })
 
                    
                     actions.setStatus(output)
