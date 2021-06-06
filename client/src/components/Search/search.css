@@ -1,0 +1,84 @@
+.search-input{
+    height: 80%;
+    border-right: none;
+    border: solid 1px #979797;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: #EDEAEA;
+}
+
+.search-btn{
+    height: 80%;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border: none;
+    font-family: 'Raleway';
+    background: #3C1352;
+    color:  #BDACE6;
+}
+
+.bubble{
+    border-radius: 15px;
+    background: #DED6E5;
+    border: solid 1px #DBC1C1;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+
+.book-btn{
+    background-color: #7b77bd ;
+    color: white;
+    font-family: 'Raleway';
+    padding: 13px;
+    border-radius: 5px;
+    border: none;
+    transition: 1s;
+    width: 71px;
+    margin-top: 30px;
+}
+
+.book-btn:hover{
+    background-color: #3C1352;
+    color: #BDACE6;
+}
+
+.contain{
+    background: white;
+}
+
+.overlay{
+    background:white;
+    width:  70%;
+    position: fixed; 
+    height: 70%; 
+    top: 13%;
+    left: 19%;
+    right: 0;
+    bottom: 0;
+    z-index: 2; 
+    padding: 4%;
+}
+
+.booking-title{
+    color: #7b77bd;
+    font-size: 1.5 rem; 
+}
+
+.booking-btn{
+    border: solid 1px #7b77bd;
+    color: #7b77bd;
+    font-family: 'Raleway';
+    padding: 13px;
+    border-radius: 5px;
+    transition: 0.5s;
+    width: 81px;
+    margin-top: 30px;
+    margin-left: 5px;
+    background: none;
+}
+
+.booking-btn:hover{
+    background: #7c78beb4;
+    color: white;
+    
+}

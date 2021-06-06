@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import AuthenticationService from '../Authentication/AuthenticationService.js';
 import {useHistory, useLocation} from "react-router-dom";
+import defaultPic from '../Image/default.png'; 
 
 
 const Nav = styled.nav`
@@ -25,6 +26,7 @@ const NavLink = styled(Link)`
         color: #8C6DD8;
         text-decoration: none;
     }
+
 `
 
 const LogoutBtn = styled.button`
@@ -40,7 +42,10 @@ const LogoutBtn = styled.button`
         color: #8C6DD8;
         text-decoration: none;
     }
-
+`
+const ProfileDiv = styled.img`
+    border-radius: 50%;
+    border: solid 0.5px #979797;
 `
 
 const Navbar = () => {
@@ -52,11 +57,17 @@ const Navbar = () => {
         history.push('/');
     }
 
+    const role = sessionStorage.getItem('role')
+
+
     return (
         <Nav>
+            <NavLink to="/profile"><ProfileDiv src ={defaultPic} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
             <NavLink to="">History</NavLink>
             <NavLink to="/dashboard">Home</NavLink>
-            <NavLink to="/service">My service</NavLink>
+            {role=== "service" && <NavLink to="/service">My service</NavLink>}
+            <NavLink to="">My Bookings</NavLink>
+            <NavLink to="/search">Search</NavLink>
             <LogoutBtn onClick={() => logOut()}>Log out</LogoutBtn>
         </Nav>
     )
