@@ -13,6 +13,7 @@ import Dashboard from '../Dashboard/DashboardHome.jsx'
 import Service from '../Service/Service_main.jsx'
 import CreateService from '../Service/Create_service.jsx'
 import SearchComponent from '../Search/SearchMain.jsx'
+import ProfileComponent from '../Profile/Profile.jsx'
 
 
 class BodyComponent extends Component {
@@ -31,6 +32,7 @@ class BodyComponent extends Component {
                             <AuthenticatedRoute path="/service-create" exact component={CreateService}></AuthenticatedRoute>
 							<AuthenticatedRoute path="/home" exact component={HomeComponent} />
                             <AuthenticatedRoute path="/search" exact component={SearchComponent} />
+                            <AuthenticatedRoute path="/profile" exact component={ProfileComponent} />
 
 							<AuthenticatedRoute component={ErrorComponent} />
                         </Switch>
