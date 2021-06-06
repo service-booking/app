@@ -1,0 +1,8 @@
+.profile-input{
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom: solid 1px rgb(86, 45, 199);
+    text-align: center;
+    font-family: 'Raleway';
+}

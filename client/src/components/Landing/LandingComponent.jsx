@@ -84,13 +84,13 @@ class LandingComponent extends Component {
 										value={this.state.password}></input>
 								</Form.Group>
 
-								<Button
+								<button
 									type="submit"
 									variant="secondary"
 									size="lg"
 									className="register-btn">
 									SIGN IN
-								</Button>
+								</button>
 								<Link className="register-btn" to="/register">Register</Link>
 							</Form>
 						</Container>
