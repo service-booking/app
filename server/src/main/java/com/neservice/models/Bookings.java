@@ -1,5 +1,8 @@
 package com.neservice.models;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class Bookings implements Comparable<Bookings> {
 	// Members of Table
 	// @reserver is the email of the person looking to book
@@ -40,8 +43,8 @@ public class Bookings implements Comparable<Bookings> {
 	}
 	
 	public int retrieveStart() {
-		String[] time = startTime.split(":");
-		return (Integer.parseInt(time[0])*60)+(Integer.parseInt(time[1]));
+		return Bookings.sconvertToTime(startTime);
+
 	}
 	
 	public String getStartTime() {
@@ -49,8 +52,7 @@ public class Bookings implements Comparable<Bookings> {
 	}
 
 	public int retrieveEnd() {
-		String[] time = endTime.split(":");
-		return (Integer.parseInt(time[0])*60)+(Integer.parseInt(time[1]));
+		return Bookings.sconvertToTime(endTime);
 	}
 	
 	public String getEndTime() {
@@ -101,6 +103,32 @@ public class Bookings implements Comparable<Bookings> {
 		this.dayMonthYear = dayMonthYear;
 	}
 	
+	// Converts a String time to int time
+	public static int sconvertToTime(String time) {
+		String[] t = time.split(":");
+		return (Integer.parseInt(t[0])*60)+(Integer.parseInt(t[1]));
+	}
+	
+	// Converts an int time to String time
+	public static String iconvertToTime(int time) {
+		int hours = (int) (time/60);
+		int mins = time - hours*60;
+		
+		return String.format("%02d:%02d", (int) (time/60), mins);
+	}
+	
+	// Gets the Day of the Week (e.g., monday)
+	public static String convertToDay(String date) {
+		String day = null;
+		try {
+			day = (new SimpleDateFormat("EEEE")).format((new SimpleDateFormat("dd/MM/yyyy")).parse(date));
+		} catch(ParseException e) {
+			System.out.println("System - Error Parsing Date to Day");
+		}
+		
+		return day.toLowerCase();
+	}
+	
 	public void displayBooking() {
 		System.out.print("Reserver: "+this.reserver);
 		System.out.print(", Service ID: "+this.id);
@@ -128,8 +156,20 @@ public class Bookings implements Comparable<Bookings> {
         int e = this.retrieveEnd();
         
         int scomp = comp.retrieveStart();
+        int ecomp = comp.retrieveEnd();
+                
+        boolean testDayMonthYear = (y == 0) && (m == 0) && (d == 0);
         
-        return (y == 0) && (m == 0) && (d == 0) && (scomp >= s && scomp < e);
+        // Four Cases for Overlap (1) (2) are the 1st and 2nd timeslots
+        // if (1)'s start is within (2)
+        // if (2)'s start is within (1)
+        // if (2) is within (1)
+        // if (1) is within (2)
+        boolean a = (s >= scomp) && (s < ecomp);
+        boolean b = (e > scomp) && (e <= ecomp);
+        boolean c = (s < scomp) && (e > ecomp);
+        
+        return testDayMonthYear && (a || b || c);
     }
 	
 	// Comparison 

@@ -76,4 +76,21 @@ public class ServiceResource {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@PostMapping("/jpa/{email}/search/service")
+	public List<Service> searchService(@PathVariable String email, @RequestBody Service service){
+		String title = service.getTitle();
+		String desc = service.getDesc();
+		
+		if(title != null && desc != null) {
+			return repo.findByTitleAndDescContainingIgnoreCase(title, desc);
+		} else if (title != null && desc == null) {
+			return repo.findByTitleContainingIgnoreCase(title);
+		} else if (title == null && desc != null) {
+			return repo.findByDescContainingIgnoreCase(desc);
+		} else {
+			return null;
+		}
+		
+	}
+	
 }

@@ -12,4 +12,7 @@ import com.neservice.models.Service;
 public interface ServiceRepo extends CrudRepository<Service, String> {
 	Optional<Service> findById(String id);
 	List<Service> findByEmail(String email);
+	List<Service> findByTitleContainingIgnoreCase(String title);
+	List<Service> findByDescContainingIgnoreCase(String desc);
+	List<Service> findByTitleAndDescContainingIgnoreCase(String title, String desc);
 }

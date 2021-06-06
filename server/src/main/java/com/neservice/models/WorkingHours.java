@@ -84,6 +84,37 @@ public class WorkingHours {
 		this.sunday = sunday;
 	}
 
+	// Takes in a Day (e.g., monday) and returns the Working Hours
+	public Day retrieveDay(String dayString) {
+		Day day = null;
+		
+		switch(dayString) {
+		case "monday":
+			day = this.monday;
+			break;
+		case "tuesday":
+			day = this.tuesday;
+			break;
+		case "wednesday":
+			day = this.wednesday;
+			break;
+		case "thursday":
+			day = this.thursday;
+			break;
+		case "friday":
+			day = this.friday;
+			break;
+		case "saturday":
+			day = this.saturday;
+			break;
+		case "sunday":
+			day = this.sunday;
+			break;
+		}
+		
+		return day;
+	}
+	
 	public void displayWorkingHours() {
 		System.out.println("Monday: "+this.monday.getStart()+" to "+this.monday.getEnd());
 		System.out.println("Tuesday: "+this.tuesday.getStart()+" to "+this.tuesday.getEnd());

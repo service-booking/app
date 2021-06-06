@@ -4,8 +4,12 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -89,5 +93,11 @@ class BookingsTest {
 		assertTrue(one.equals(two));
 		two.setStartTime("18:01");
 		assertFalse(one.equals(two));
+	}
+	
+	@Test
+	void trialConversion() {
+		assertEquals("08:50", Bookings.iconvertToTime(530));
+		assertEquals("18:50", Bookings.iconvertToTime(1130));
 	}
 }

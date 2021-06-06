@@ -1,6 +1,7 @@
 package com.neservice.resources;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neservice.GlobalVariable;
 import com.neservice.models.Bookings;
+import com.neservice.models.Day;
 import com.neservice.models.Service;
 import com.neservice.models.Timetable;
 import com.neservice.models.TimetableDB;
@@ -183,7 +185,8 @@ public class TimetableResource {
 		
 		// Check if the overlapped bookings
 		for(int i=0; i<ttable.getBookings().size(); i++) {
-			if(booking.compareTo(ttable.getBookings().get(i)) == 0) {
+			//if(booking.equals(ttable.getBookings().get(i))) {
+			if(ttable.getBookings().get(i).equals(booking)) {
 				success = false;
 				break;
 			}
@@ -201,6 +204,7 @@ public class TimetableResource {
 		return success;
 	}
 	
+	// Canceling a Booking
 	@PostMapping("/jpa/{email}/cancel/booking/{id}")
 	public ResponseEntity<Void> cancelBooking(
 			@PathVariable String email, 
@@ -216,10 +220,86 @@ public class TimetableResource {
 				
 		// Cancel the Booking
 		ttable.cancelBooking(booking);
-				
+		
 		// Update Timetable
 		trepo.save(new TimetableDB(ttable));
 		
 		return ResponseEntity.noContent().build();
+	}
+	
+	// Retrieving all Available Bookings for a Particular Day
+	@PostMapping("/jpa/{email}/get/available/bookings/{id}")
+	public List<Bookings> getAllAvailableBookings(
+			@PathVariable String email, 
+			@PathVariable String id, 
+			@RequestBody String date
+		){
+		date = date.replace("%2F", "/").replace("=", "");
+		System.out.println(date);
+		List<Bookings> bookings = new ArrayList<Bookings>();
+		
+		// Find the Service Provider and Duration
+		Service service = srepo.findById(id).get();
+		String provider = service.getEmail();
+		int duration = service.getDuration();
+		
+		// Used to Store Retrieved Data to Database
+		Timetable ttable = new Timetable(trepo.findByEmail(provider)); 
+		List<Bookings> allBookings = new ArrayList<Bookings>();
+		Bookings dayBooking = new Bookings();
+		dayBooking.setDayMonthYear(date);
+		dayBooking.setStartTime("00:00");
+		dayBooking.setEndTime("24:00");
+		
+		// Get the Right Working Hours
+		Day hours = ttable.getHours().retrieveDay(Bookings.convertToDay(date));
+		
+		// Extract the Integer Start and End Times
+		int start = Bookings.sconvertToTime(hours.getStart());
+		int end = Bookings.sconvertToTime(hours.getEnd());
+		int bstart = start; 
+		
+		// Get all Bookings for that Particular Day
+		for(int i=0; i<ttable.getBookings().size(); i++) {
+			if(dayBooking.equals(ttable.getBookings().get(i))) {
+				allBookings.add(ttable.getBookings().get(i));
+			}
+		}
+		
+		for(int i=0; i<allBookings.size(); i++) {
+			allBookings.get(i).displayBooking();
+		}
+		
+		// Create Available Bookings using @start, @end, @duration, and allBookings
+		while(bstart < end) {
+			boolean checkFailed = false;
+			// Create the Available Booking
+			Bookings timeslot = new Bookings();
+			timeslot.setStartTime(Bookings.iconvertToTime(bstart));
+			timeslot.setEndTime(Bookings.iconvertToTime(bstart+duration));
+			timeslot.setDayMonthYear(date);
+			
+			// Check Bookings
+			for(int i=0; i<allBookings.size(); i++) {
+				if(timeslot.equals(allBookings.get(i))) {
+					checkFailed = true;
+					break;
+				}
+			}
+			
+			// If the Booking is Available, Add it to List
+			if(!checkFailed) {
+				bookings.add(timeslot);
+			}
+			
+			// Update bstart
+			bstart += duration;
+		}
+		
+		for(int i=0; i<bookings.size(); i++) {
+			bookings.get(i).displayBooking();
+		}
+		
+		return bookings;
 	}
 }
