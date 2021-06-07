@@ -1,0 +1,13 @@
+.main{
+    background:white;
+    width:  70%;
+    position: fixed; 
+    height: 70%; 
+    top: 5%;
+    left: 19%;
+    right: 0;
+    bottom: 0;
+    z-index: 2; 
+    padding: 4%;
+    height: 93%;
+}
