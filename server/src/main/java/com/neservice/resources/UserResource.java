@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ListObjectsRequest;
+import com.amazonaws.services.s3.model.ObjectListing;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.S3ObjectSummary;
 import com.neservice.GlobalVariable;
 import com.neservice.config.AmazonS3Config;
 import com.neservice.models.Bucket;
@@ -91,6 +94,7 @@ public class UserResource {
     public ResponseEntity uploadUserProfile(@PathVariable String email, @RequestParam("file") MultipartFile file) {
 		// Used to Store Retrieved Data to Database
 		User db = repo.findByEmail(email);
+		Bucket bucket = new Bucket();
 		
 		
 		// Code sourced from: https://github.com/amigoscode/spring-s3-react-file-upload
@@ -103,14 +107,32 @@ public class UserResource {
         
         // Create Path (AWS) and Filename for Uploaded File
 		String ext = email.replace("@", "-").replace(".", "-");
-        String path = (new Bucket()).getPath(ext);
+        String path = bucket.getPath(ext);
         String filename = file.getOriginalFilename();
         
     	System.out.println(ext);
     	System.out.println(path);
-    	System.out.println((new Bucket()).getFullPath(ext)+filename);
+    	System.out.println(bucket.getFullPath(ext)+filename);
     	System.out.println(filename);
+    	
+    	// Check if there is a User Profile Picture Already
+        ListObjectsRequest listObjectsRequest = new ListObjectsRequest()
+                .withBucketName(bucket.getBucket())
+                .withPrefix(ext);
 
+        ObjectListing objectListing = s3.listObjects(listObjectsRequest);
+
+        while (true) {
+            for (S3ObjectSummary objectSummary : objectListing.getObjectSummaries()) {
+                s3.deleteObject(bucket.getBucket(), objectSummary.getKey());
+            }
+            if (objectListing.isTruncated()) {
+                objectListing = s3.listNextBatchOfObjects(objectListing);
+            } else {
+                break;
+            }
+        }
+    	
         // Attempt to Push to S3
         try {
         	s3.putObject(path, filename, file.getInputStream(), metadata);
