@@ -82,11 +82,11 @@ public class ServiceResource {
 		String desc = service.getDesc();
 		
 		if(title != null && desc != null) {
-			return repo.findByTitleAndDescContainingIgnoreCase(title, desc);
+			return repo.findByTitleAndDescContaining(title, desc);
 		} else if (title != null && desc == null) {
-			return repo.findByTitleContainingIgnoreCase(title);
+			return repo.findByTitleContaining(title);
 		} else if (title == null && desc != null) {
-			return repo.findByDescContainingIgnoreCase(desc);
+			return repo.findByDescContaining(desc);
 		} else {
 			return null;
 		}

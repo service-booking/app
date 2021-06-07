@@ -13,6 +13,7 @@ public class User {
 	private String firstName;
 	private String lastName;
 	private String accountType;
+	private String profilePicture;
 	// Varying
 	// Address will either be Postcode or Address
 	private String address;
@@ -25,12 +26,13 @@ public class User {
 	}
 	
 	// Override Constructor
-	public User(String email, String password, String firstName, String lastName, String accountType, String address, String media, String about) {
+	public User(String email, String password, String firstName, String lastName, String accountType, String profilePicture, String address, String media, String about) {
 		this.email = email;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountType = accountType;
+		this.profilePicture = profilePicture;
 		this.address = address;
 		this.media = media;
 		this.about = about;
@@ -60,6 +62,11 @@ public class User {
     @DynamoDBAttribute
 	public String getAccountType() {
 		return accountType;
+	}
+    
+    @DynamoDBAttribute
+	public String getProfilePicture() {
+		return profilePicture;
 	}
 
     @DynamoDBAttribute
@@ -96,6 +103,10 @@ public class User {
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
+	
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
 
 	public void setAddress(String address) {
 		this.address = address;
@@ -115,6 +126,7 @@ public class User {
 		System.out.println("First Name: "+this.firstName);
 		System.out.println("Last Name: "+this.lastName);
 		System.out.println("Account Type: "+this.accountType);
+		System.out.println("Profile Picture URL: "+this.profilePicture);
 		System.out.println("Address: "+this.address);
 		System.out.println("Media Handler: "+this.media);
 		System.out.println("About: "+this.about);

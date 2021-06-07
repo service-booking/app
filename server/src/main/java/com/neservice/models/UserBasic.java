@@ -7,6 +7,7 @@ public class UserBasic {
 	private String firstName;
 	private String lastName;
 	private String accountType;
+	private String profilePicture;
 	// Varying
 	// Address will either be Postcode or Address
 	private String address;
@@ -19,11 +20,12 @@ public class UserBasic {
 	}
 	
 	// Override Constructor
-	public UserBasic(String email, String firstName, String lastName, String accountType, String address, String media, String about) {
+	public UserBasic(String email, String firstName, String lastName, String accountType, String profilePicture, String address, String media, String about) {
 		this.email = email;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.accountType = accountType;
+		this.profilePicture = profilePicture;
 		this.address = address;
 		this.media = media;
 		this.about = about;
@@ -35,6 +37,7 @@ public class UserBasic {
 		this.firstName = user.getFirstName();
 		this.lastName = user.getLastName();
 		this.accountType = user.getAccountType();
+		this.profilePicture = user.getProfilePicture();
 		this.address = user.getAddress();
 		this.media = user.getMedia();
 		this.about = user.getAbout();
@@ -55,6 +58,10 @@ public class UserBasic {
     
 	public String getAccountType() {
 		return accountType;
+	}
+	
+	public String getProfilePicture() {
+		return profilePicture;
 	}
 
 	public String getAddress() {
@@ -85,6 +92,10 @@ public class UserBasic {
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
+	
+	public void setProfilePicture(String profilePicture) {
+		this.profilePicture = profilePicture;
+	}
 
 	public void setAddress(String address) {
 		this.address = address;
@@ -103,6 +114,7 @@ public class UserBasic {
 		System.out.println("First Name: "+this.firstName);
 		System.out.println("Last Name: "+this.lastName);
 		System.out.println("Account Type: "+this.accountType);
+		System.out.println("Profile Picture URL: "+this.profilePicture);
 		System.out.println("Address: "+this.address);
 		System.out.println("Media Handler: "+this.media);
 		System.out.println("About: "+this.about);
