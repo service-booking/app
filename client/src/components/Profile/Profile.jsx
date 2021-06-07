@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import profile from './profile.css'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import defaultPic from '../Image/default.png'; 
+import Workinghours from '../Workinghours/workinghours'
 
 const Main = styled.div`
     display: flex;
@@ -21,6 +22,7 @@ const Block = styled.div`
     display: flex;
     flex-direction: column; 
     justify-content: center;
+    padding: 5%;
 
 `
 
@@ -48,9 +50,36 @@ const PasswordBlock=styled.div`
     background: white;
     font-family: 'Raleway';
     border-radius: 8px;
-    width: 40%;
     box-shadow: -5px 7px 13px 0px #6B6B6B;
-    height: 20%;
+    height: 45%;
+    padding: 5px;
+`
+
+const PasswordBtn=styled.button`
+    border: none; 
+    width: 12rem;
+    background: linear-gradient(#986DEA, #DAB8F3);
+    font-family: 'Raleway';
+    border-radius: 8px;
+    margin-top: 5px;
+`
+
+const ChangeHours=styled.button`
+    border: none; 
+    width: 12rem;
+    background: linear-gradient(#986DEA, #DAB8F3);
+    font-family: 'Raleway';
+    border-radius: 8px;
+    margin-top: 5px;
+    height: 25%;
+
+`
+
+const CloseOverlay= styled.button`
+    position: fixed;
+    top: 6%;
+    z-index: 2;
+    right: 12%;
 `
 
 function Profile() {
@@ -60,6 +89,12 @@ function Profile() {
     const email = sessionStorage.getItem('authenticatedUser')
     const [oldPw, setOldPw] = useState('');
     const [newPw, setNewPw] = useState('');
+    const[message, setMessage] = useState('');
+    const [on, setOn] = useState(false);
+
+    let sent = false;
+
+    let role = sessionStorage.getItem('role');
 
     const onNewPasswordChange =(value) =>{
         setNewPw(value)
@@ -71,12 +106,32 @@ function Profile() {
 
     const handleChangePassword = () =>{
         let email = sessionStorage.getItem('authenticatedUser')
-        axios.post(`${JPA_URL}/${email}/${oldPw}/update`, newPw)
+        let obj= {
+            password: newPw
+        }
+        axios.post(`${JPA_URL}/${email}/${oldPw}/update`, obj)
         .then((res)=> {
-            console.log(res)
+            if(res.data === "true"){
+                setOldPw("")
+                setNewPw("")
+                setTimeout(()=> {setMessage("Password Changed!")}, 2000)
+                setTimeout(()=> {setMessage("")}, 2000)
+
+            }
+            else{console.log(res)
+                console.log("old password is wrong")
+                setTimeout(()=> {setMessage("Old password is incorrect!")}, 2000)
+            }
             
         })
 
+    }
+
+    const displayOverlay = () =>{
+        setOn(true)
+    }
+    const close = () =>{
+        setOn(false)
     }
 
      useEffect(() =>{
@@ -86,7 +141,7 @@ function Profile() {
              setData(res.data)
          })
      },[])
-     console.log(data)
+     
 
      const first = data.firstName
     return (
@@ -133,11 +188,10 @@ function Profile() {
                                     <Field className="profile-input" name="lastName" value={values.lastName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="address" value={values.address} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="media"  value={values.media} onChange={handleChange}></Field>
-                                    <Field name="about" type="text-area" value={values.about} onChange={handleChange}></Field>
+                                    <textarea className="text" type="textarea" name="about" value={values.about} onChange={handleChange}></textarea>
                                     <div>
                                         <SaveBtn type="submit" >Save</SaveBtn>
                                     </div>
-                                   
                                 </Form>
 
                             )}
@@ -148,16 +202,28 @@ function Profile() {
                     
                 </Block>
 
-                <PasswordBlock>
-                    change password 
-                    <label>Old passowrd</label>
-                    <input value={oldPw} onChange={(e) => onOldPasswordChange(e.target.value)}></input>
+                <div className="column-wrap">
+                    <PasswordBlock>
+                        <h1 className="title">Change Password</h1>
+                        <label>Old passowrd</label>
+                        <input value={oldPw} onChange={(e) => onOldPasswordChange(e.target.value)}></input>
 
-                    <label>New password</label>
-                    <input value={newPw} onChange={(e) => onNewPasswordChange(e.target.value)}></input>
+                        <label>New password</label>
+                        <input value={newPw} onChange={(e) => onNewPasswordChange(e.target.value)}></input>
 
-                    <SaveBtn onClick={()=> handleChangePassword()} >Change password</SaveBtn>
-                </PasswordBlock>
+                        <PasswordBtn onClick={()=> handleChangePassword()} >Change password</PasswordBtn>
+                        {<div className="">{message}</div>}
+                    </PasswordBlock>
+                    
+                    { role === "service" && 
+                        <div className="hours-block">
+                            <ChangeHours onClick={()=>displayOverlay()}>Change Operating hours</ChangeHours>
+                        </div>
+                    }
+                    {on === true ? <Workinghours/>: ""}
+                    {on === true? <CloseOverlay onClick={() =>close()}>Close</CloseOverlay>: ""}
+                </div>
+                
             </Background>
             
         </Main>
