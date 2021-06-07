@@ -5,6 +5,7 @@ import { JPA_URL } from '../../Constants'
 import styled from 'styled-components'
 import profile from './profile.css'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
+import defaultPic from '../Image/default.png'; 
 
 const Main = styled.div`
     display: flex;
@@ -16,7 +17,7 @@ const Block = styled.div`
     border-radius: 10px;
     background: white;
     width: 50%;
-    height: 60vh;
+    height: 75vh;
     display: flex;
     flex-direction: column; 
     justify-content: center;
@@ -31,6 +32,9 @@ const Background= styled.div`
     margin-top: 5%;
     padding: 4%;
     border-radius: 10px;
+    display: flex;
+    flex-direciton: row;
+    justify-content: space-between;
 `
 
 const SaveBtn= styled.button`
@@ -40,15 +44,38 @@ const SaveBtn= styled.button`
     font-family: 'Raleway';
     border-radius: 8px;
 `
+const PasswordBlock=styled.div`
+    background: white;
+    font-family: 'Raleway';
+    border-radius: 8px;
+    width: 40%;
+    box-shadow: -5px 7px 13px 0px #6B6B6B;
+    height: 20%;
+`
 
 function Profile() {
 
     const [data, setData] = useState([]);
     const [file, setFile] = useState(undefined);
     const email = sessionStorage.getItem('authenticatedUser')
+    const [oldPw, setOldPw] = useState('');
+    const [newPw, setNewPw] = useState('');
 
+    const onNewPasswordChange =(value) =>{
+        setNewPw(value)
+    }
 
-    const handleChange = () =>{
+    const onOldPasswordChange = (value) =>{
+        setOldPw(value)
+    }
+
+    const handleChangePassword = () =>{
+        let email = sessionStorage.getItem('authenticatedUser')
+        axios.post(`${JPA_URL}/${email}/${oldPw}/update`, newPw)
+        .then((res)=> {
+            console.log(res)
+            
+        })
 
     }
 
@@ -73,9 +100,10 @@ function Profile() {
                     </div>
                     <div>
                         <Formik
+                            enableReinitialize
                             initialValues={{
-                                firstName: `${first}`,
-                                lastName:data.lastName,
+                                firstName: data.firstName,
+                                lastName: data.lastName,
                                 address: data.address,
                                 media: data.media,
                                 about: data.about,
@@ -100,11 +128,16 @@ function Profile() {
                             {({isSubmitting, status, handleChange, values}) => (
                                 <Form>
                                     <p>My Profile</p>
+                                    <img src={defaultPic} width="200px"></img>
                                     <Field className="profile-input" name="firstName" value={values.firstName} onChange={handleChange}></Field>
-                                    <Field className="profile-input" name="lasttName" alue={values.lastName} onChange={handleChange}></Field>
+                                    <Field className="profile-input" name="lastName" value={values.lastName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="address" value={values.address} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="media"  value={values.media} onChange={handleChange}></Field>
-                                    <SaveBtn>Save</SaveBtn>
+                                    <Field name="about" type="text-area" value={values.about} onChange={handleChange}></Field>
+                                    <div>
+                                        <SaveBtn type="submit" >Save</SaveBtn>
+                                    </div>
+                                   
                                 </Form>
 
                             )}
@@ -113,8 +146,18 @@ function Profile() {
                         </Formik>
                     </div>
                     
-                  
                 </Block>
+
+                <PasswordBlock>
+                    change password 
+                    <label>Old passowrd</label>
+                    <input value={oldPw} onChange={(e) => onOldPasswordChange(e.target.value)}></input>
+
+                    <label>New password</label>
+                    <input value={newPw} onChange={(e) => onNewPasswordChange(e.target.value)}></input>
+
+                    <SaveBtn onClick={()=> handleChangePassword()} >Change password</SaveBtn>
+                </PasswordBlock>
             </Background>
             
         </Main>
