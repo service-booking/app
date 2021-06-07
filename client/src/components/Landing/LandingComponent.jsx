@@ -3,6 +3,7 @@ import "./LandingComponent.css";
 import FooterComponent from "../Footer/FooterComponent.jsx";
 import {Container, Form, Button} from "react-bootstrap";
 import AuthenticationService from "../Authentication/AuthenticationService.js";
+import {Link} from 'react-router-dom';
 
 class LandingComponent extends Component {
 	constructor(props) {
@@ -43,7 +44,7 @@ class LandingComponent extends Component {
 				this.state.username,
 				response.data.token
 			);
-			let url = "/home";
+			let url = "/dashboard";
 			this.props.history.push(url);
 		});
 	}
@@ -57,41 +58,42 @@ class LandingComponent extends Component {
 		return (
 			<div>
 				<div className="home-page">
+					<div className="extra-container"></div>
 					<div className="login-container">
-						<Container style={{height: "100vh"}}>
+						<Container>
 							<Form className="login-form" onSubmit={this.handleSubmit}>
 								<h1 className="login-title">LOGIN</h1>
 								<Form.Group className="input-container">
-									<p className="input-name">Username</p>
+									
 									<input
 										type="text"
 										name="username"
-										className="input-field username-field"
+										className="input-field"
 										placeholder="Enter your username"
 										onChange={this.handleChange.bind(this)}
 										value={this.state.username}></input>
 								</Form.Group>
 								<Form.Group className="input-container">
-									<p className="input-name">Password</p>
+									
 									<input
 										type="password"
 										name="password"
-										className="input-field password-field"
+										className="input-field"
 										placeholder="Enter your password"
 										onChange={this.handleChange.bind(this)}
 										value={this.state.password}></input>
 								</Form.Group>
 
-								<Button
+								<button
 									type="submit"
 									variant="secondary"
 									size="lg"
-									className="submit-button button-lg">
+									className="register-btn">
 									SIGN IN
-								</Button>
+								</button>
+								<Link className="register-btn" to="/register">Register</Link>
 							</Form>
 						</Container>
-						<FooterComponent />
 					</div>
 				</div>
 			</div>

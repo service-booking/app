@@ -25,7 +25,7 @@ import com.neservice.GlobalVariable;
 import com.neservice.jwt.JwtInMemoryUserDetailsService;
 import com.neservice.jwt.JwtTokenUtil;
 import com.neservice.jwt.JwtUserDetails;
-import com.neservice.user.User;
+import com.neservice.models.User;
 
 @RestController
 @CrossOrigin(origins=GlobalVariable.APP_URL)
@@ -86,12 +86,12 @@ public class JwtAuthenticationRestController {
 		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
 	}
 
-	private void authenticate(String username, String password) {
-		Objects.requireNonNull(username);
+	private void authenticate(String email, String password) {
+		Objects.requireNonNull(email);
 		Objects.requireNonNull(password);
 
 		try {
-			authMang.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			authMang.authenticate(new UsernamePasswordAuthenticationToken(email, password));
 		} catch (DisabledException e) {
 			throw new AuthenticationException("USER_DISABLED", e);
 		} catch (BadCredentialsException e) {

@@ -6,6 +6,14 @@ import LandingComponent from '../Landing/LandingComponent.jsx'
 import RegisterComponent from '../Register/RegisterComponent.jsx'
 import HomeComponent from '../Home/HomeComponent.jsx'
 import ErrorComponent from '../Error/ErrorComponent.jsx'
+import RegisterCustomer from '../Register/Register_customer.js'
+import RegisterService from '../Register/Register_service.js'
+import RegisterLanding from '../Register/Register_landing.js'
+import Dashboard from '../Dashboard/DashboardHome.jsx'
+import Service from '../Service/Service_main.jsx'
+import CreateService from '../Service/Create_service.jsx'
+import SearchComponent from '../Search/SearchMain.jsx'
+import ProfileComponent from '../Profile/Profile.jsx'
 
 
 class BodyComponent extends Component {
@@ -16,8 +24,16 @@ class BodyComponent extends Component {
                     <>
                         <Switch>
                             <Route path="/" exact component={LandingComponent} />
-                            <Route path="/register" exact component={RegisterComponent} />
+                            <Route path="/register" exact component={RegisterLanding} />
+                            <Route path="/register-service-provider" exact component={RegisterService}></Route>
+                            <Route path="/register-customer" exact component={RegisterCustomer}></Route>
+                            <AuthenticatedRoute path="/dashboard" exact component={Dashboard}></AuthenticatedRoute>
+                            <Route path="/service" exact component={Service}></Route>
+                            <AuthenticatedRoute path="/service-create" exact component={CreateService}></AuthenticatedRoute>
 							<AuthenticatedRoute path="/home" exact component={HomeComponent} />
+                            <AuthenticatedRoute path="/search" exact component={SearchComponent} />
+                            <AuthenticatedRoute path="/profile" exact component={ProfileComponent} />
+
 							<AuthenticatedRoute component={ErrorComponent} />
                         </Switch>
                     </>
