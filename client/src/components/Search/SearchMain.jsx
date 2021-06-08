@@ -10,6 +10,7 @@ import DateTimePicker from 'react-datetime-picker';
 
 
 
+
 const Main = styled.div`
     display: flex;
     flex-direction: row;
@@ -70,15 +71,24 @@ function SearchMain() {
     const [data, setData] = useState([]);
     const [on, setOn] = useState(false);
     const [value, onChange] = useState(new Date());
+    const [searchString, setSearchString] = useState("");
+    const [availableTimes, setAvailableTimes] = useState([]);
+    const [currentId, setCurrentId] = useState("");
+    const [bookingTime, setBookingTime] = useState("");
+    const [date, setBookingDate] = useState("");
+    const [error, setError] = useState(false);
+    const [endBookingTime, setBookingEndTime] = useState("");
 
 
-    const displayOverlay = () =>{
+    const displayOverlay = (id) =>{
         setOn(true)
+        setCurrentId(id)
     }
 
     const close =()=>{
         setOn(false)
     }
+
     
     useEffect(() => {   
         axios.get(`${JPA_URL}/${email}/get/services`)
@@ -91,6 +101,10 @@ function SearchMain() {
 
     //send value to api to get bookings and display booking lots for use to choose 
     // send booking details to backend 
+    const handleTimes = (startValue, endValue) =>{
+        setBookingTime(startValue)
+        setBookingEndTime(endValue)
+    }
 
     const Overlay = () =>{
         return(
@@ -104,20 +118,90 @@ function SearchMain() {
                     format={"dd-MM-y"}
                     minDate={new Date()}
                 />
-
+                <button className="booking-btn" onClick={()=> fetchTime()}>Show time slots</button>
                 <h1>
                     Select booking time 
                 </h1>
-
+                <div className="time-slot">
+                    {error === true &&<div>No available booking time slots</div>}
+                    {
+                        availableTimes.map((time) => 
+                        
+                            <div>
+                                <input type="radio" name="time-slot"  onClick={()=> handleTimes(time.startTime, time.endTime)} id={time.startTime}/> 
+                                <label for={time.startTime}>{time.startTime} - {time.endTime}</label>
+                            </div>
+                    )}
+                </div>
                 
-                <p>booking </p>
                 <div>
-                    <button className="booking-btn" >Book</button>
+                    <button className="booking-btn" onClick={() => handleBooking()}>Book</button>
                     <button className="booking-btn" onClick={() => close()}>Cancel</button>
                 </div>
                 
             </div>
         )
+    }
+
+    const fetchTime = () =>{
+        
+        // const dateString = value.getDay()+"/"+value.getMonth()+"/"+value.getFullYear();
+        // setDate(dateString)
+
+        var MyDate = new Date();
+        var MyDateString;
+
+        MyDate.setDate(value.getDate());
+
+        MyDateString = ('0' + MyDate.getDate()).slice(-2) + '/'
+                    + ('0' + (MyDate.getMonth()+1)).slice(-2) + '/'
+                    + MyDate.getFullYear();
+        
+        setBookingDate(MyDateString)
+        console.log(MyDateString)
+
+        axios.post(`${JPA_URL}/${email}/get/available/bookings/${currentId}`,date)
+        .then((res)=>{
+            console.log(res)
+            setError(false)
+            setAvailableTimes(res.data)
+        })
+        .catch((err) =>{
+            setError(true)
+            //display no available time slot on this day 
+        })
+    }
+
+    const handleSubmit = () =>{
+        const service ={
+            title: searchString
+        }
+        axios.post(`${JPA_URL}/${email}/search/service`, service)
+        .then((res)=>{
+            if(res.data != []){
+                setData(res.data)
+            }
+            else{
+                //display no result 
+            }
+            
+        })
+
+    }
+
+    const handleBooking = (id) => {
+        const booking = {
+            startTime: bookingTime,
+			endTime: endBookingTime,
+			dayMonthYear: date,
+            
+        }
+        axios.post(`${JPA_URL}/${email}/create/booking/${currentId}`, booking)
+        .then((res) =>{
+            //redirect or close form    
+            console.log("booking is made !")
+            setTimeout(() => setOn(false), 3000)
+        })
     }
 
     return (
@@ -126,8 +210,8 @@ function SearchMain() {
             <OuterDiv>
                 <WhiteDiv>
                     <WhiteBar>
-                        <input className="search-input"/>
-                        <button className="search-btn">Search</button>
+                        <input className="search-input" onChange={(e) => setSearchString(e.target.value)}/>
+                        <button className="search-btn" onCLick={()=> handleSubmit()}>Search</button>
                     </WhiteBar>
                     <WhiteWrap>
                         <Container className="contain">
@@ -141,7 +225,7 @@ function SearchMain() {
                                             <p className="price">${ele.price}</p>
                                         </Col>
                                         <Col>
-                                            <button className="book-btn" onClick={() => (displayOverlay())}>Book</button>
+                                            <button className="book-btn" onClick={() => (displayOverlay(ele.id))}>Book</button>
                                         </Col>
                                     </Row>
                                 )

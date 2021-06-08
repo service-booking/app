@@ -50,7 +50,7 @@
     background:white;
     width:  70%;
     position: fixed; 
-    height: 70%; 
+    height: 80%; 
     top: 13%;
     left: 19%;
     right: 0;
@@ -80,5 +80,37 @@
 .booking-btn:hover{
     background: #7c78beb4;
     color: white;
+}
+
+input[type="radio"]{
+    display:none;
+}
+
+label{
+    position: relative;
+    color: #7b77bd;
+    padding: 13px;
+    border-radius: 5px;
+    border: solid 1px #7b77bd;
+    margin: 1px;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked+ label{
+    background: #7b77bd;
+    color:white;
+}
+
+.time-slot{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-auto-rows: minmax(5px, auto);
+    grid-gap: 1px;
     
 }
+
+.time-slot > div {
+	padding: 1px;
+}
+
+
