@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import {Calendar , momentLocalizer}from 'react-big-calendar'
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import moment from 'moment'
+import axios from 'axios'
+import { JPA_URL } from '../../Constants'
 const localizer = momentLocalizer(moment)
 
 const Main = styled.div`
@@ -21,17 +23,31 @@ const RowWrap = styled.div`
 `
 
 function DashboardHome() {
+    const [data, setData] = useState([]);
 
-    // const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([]);
+    const email = sessionStorage.getItem("authenticatedUser")
+    const role = sessionStorage.getItem("role")
 
-    // useEffect(() => {   
-    //     axios.get(`${JPA_URL}/${email}/get/bookings`)
-    //     .then((res)=> {
-    //         console.log(res)
-    //         setData(res.data)
-    //     })
+    useEffect(() => {   
+
+        if(role === "customer"){
+            axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
+            .then((res)=> {
+                console.log(res)
+                setData(res.data)
+            })
+        }
+        else{
+            axios.get(`${JPA_URL}/${email}/get/bookings/provider`)
+            .then((res)=> {
+                console.log(res)
+                setData(res.data)
+            })
+
+        }
        
-    // }, [])
+    }, [])
 
     const event = [{
         title: 'pedicure',
