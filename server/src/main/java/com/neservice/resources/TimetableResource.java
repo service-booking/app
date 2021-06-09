@@ -1,7 +1,9 @@
 package com.neservice.resources;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.neservice.GlobalVariable;
 import com.neservice.models.Bookings;
+import com.neservice.models.CalendarItem;
 import com.neservice.models.Day;
 import com.neservice.models.Service;
 import com.neservice.models.Timetable;
@@ -105,16 +108,17 @@ public class TimetableResource {
 	
 	// Get the Bookings for the Provider
 	@GetMapping("/jpa/{email}/get/bookings/provider")
-	public List<Bookings> getAllBookingsProvider(@PathVariable String email){
+	public List<CalendarItem> getAllBookingsProvider(@PathVariable String email){
 		// Used to Store Retrieved Data to Database
 		Timetable ttable = new Timetable(trepo.findByEmail(email));
+		List<Bookings> bookings = ttable.retrieveIsoBookings();
 		
-		return ttable.retrieveIsoBookings();
+		return getCalendarItems(bookings);
 	}
 	
 	// Get the Bookings for the Provider
 	@GetMapping("/jpa/{email}/get/bookings/reserver")
-	public List<Bookings> getAllBookingsReserver(@PathVariable String email){
+	public List<CalendarItem> getAllBookingsReserver(@PathVariable String email){
 		// Apply O(n^2) Search through Timetable table
 		List<TimetableDB> db = new ArrayList<TimetableDB>(trepo.findAll());
 		List<Bookings> bookings = new ArrayList<Bookings>();
@@ -133,7 +137,28 @@ public class TimetableResource {
 			}
 		}
 		
-		return bookings;
+		return getCalendarItems(bookings);
+	}
+	
+	// Function to Return a List of CalendarItems for Bookings + Services
+	public List<CalendarItem> getCalendarItems(List<Bookings> bookings) {
+		List<CalendarItem> cal = new ArrayList<CalendarItem>();
+		
+		// Get Each Service
+		Map<String, Service> services = new HashMap<String, Service>();
+		
+		for(int i=0; i<bookings.size(); i++) {
+			String id = bookings.get(i).getId();
+			// Add New Services
+			if(!services.containsKey(bookings.get(i).getId())) {
+				services.put(id, srepo.findById(id).get()); 
+			}
+			
+			// Add the New Calendar Item
+			cal.add(new CalendarItem(bookings.get(i),services.get(id)));
+		}
+		
+		return cal;
 	}
 	
 	// Get the Bookings for the Service
