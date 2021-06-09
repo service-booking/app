@@ -49,13 +49,14 @@ function DashboardHome() {
        
     }, [])
 
-    const event = [{
-        title: 'pedicure',
-        allDay: false,
-        start: new Date('2021-06-06T02:00Z'),
-        end: new Date('2021-06-06T03:00Z'),
-        color: 'red'
-    }]
+    const eventArr = data.map((ele) =>({
+        title : ele.title,
+        allDay :false,
+        start : ele.startTime,
+        end:ele.endTime
+    }))
+
+    console.log(eventArr)
 
     return (
         <Main>
@@ -70,7 +71,7 @@ function DashboardHome() {
                 <CalendarWrap>
                     <Calendar
                         localizer={localizer}
-                        events={event}
+                        events={eventArr}
                         startAccessor="start"
                         endAccessor="end"
                     />
