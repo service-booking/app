@@ -14,5 +14,4 @@ public interface ServiceRepo extends CrudRepository<Service, String> {
 	List<Service> findByEmail(String email);
 	List<Service> findByTitleContaining(String title);
 	List<Service> findByDescContaining(String desc);
-	List<Service> findByTitleAndDescContaining(String title, String desc);
 }

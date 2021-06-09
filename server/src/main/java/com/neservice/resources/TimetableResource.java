@@ -109,7 +109,7 @@ public class TimetableResource {
 		// Used to Store Retrieved Data to Database
 		Timetable ttable = new Timetable(trepo.findByEmail(email));
 		
-		return ttable.getBookings();
+		return ttable.retrieveIsoBookings();
 	}
 	
 	// Get the Bookings for the Provider
@@ -121,10 +121,9 @@ public class TimetableResource {
 
 		// Linear Search the Table Records
 		for(int i=0; i<db.size(); i++) {
-			System.out.println(db.get(i).getBookings());
-			// Convert to Usable Objcet
+			// Convert to Usable Object
 			Timetable ttable = new Timetable(db.get(i));
-			List<Bookings> tbookings = ttable.getBookings();
+			List<Bookings> tbookings = ttable.retrieveIsoBookings();
 			// Linear Search the Booking Records
 			for(int j=0; j<tbookings.size(); j++) {
 				// Check if the Reservers match
@@ -147,12 +146,13 @@ public class TimetableResource {
 		
 		// Used to Store Retrieved Data to Database
 		Timetable ttable = new Timetable(trepo.findByEmail(provider));
+		List<Bookings> tbookings = ttable.retrieveIsoBookings();
 		
 		// Search for Service Bookings
-		for(int i=0; i<ttable.getBookings().size(); i++) {
+		for(int i=0; i<tbookings.size(); i++) {
 			// if the Service ID's match
-			if(ttable.getBookings().get(i).getId().equals(id)) {
-				bookings.add(ttable.getBookings().get(i));
+			if(tbookings.get(i).getId().equals(id)) {
+				bookings.add(tbookings.get(i));
 			}
 		}
 		
@@ -265,10 +265,6 @@ public class TimetableResource {
 			}
 		}
 		
-		for(int i=0; i<allBookings.size(); i++) {
-			allBookings.get(i).displayBooking();
-		}
-		
 		// Create Available Bookings using @start, @end, @duration, and allBookings
 		while(bstart < end) {
 			boolean checkFailed = false;
@@ -293,10 +289,6 @@ public class TimetableResource {
 			
 			// Update bstart
 			bstart += duration;
-		}
-		
-		for(int i=0; i<bookings.size(); i++) {
-			bookings.get(i).displayBooking();
 		}
 		
 		return bookings;
