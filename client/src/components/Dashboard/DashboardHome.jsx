@@ -52,11 +52,21 @@ function DashboardHome() {
     const eventArr = data.map((ele) =>({
         title : ele.service.title + " with "  ,
         allDay :false,
-        start : ele.booking.startTime,
-        end:ele.booking.endTime
+        start : new Date (ele.booking.startTime),
+        end:new Date(ele.booking.endTime)
     }))
 
     console.log(eventArr)
+
+    const event = [{
+        title: "abc",
+        allDay: false,
+        start: new Date("2021-06-09T10:39:00Z"),
+        end: new Date("2021-06-09T12:39:00Z")
+    }]
+
+    //conver dates
+    console.log(event[0].start)
 
     return (
         <Main>
