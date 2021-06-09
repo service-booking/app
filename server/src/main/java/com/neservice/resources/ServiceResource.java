@@ -78,19 +78,29 @@ public class ServiceResource {
 	
 	@PostMapping("/jpa/{email}/search/service")
 	public List<Service> searchService(@PathVariable String email, @RequestBody Service service){
-		String title = service.getTitle();
-		String desc = service.getDesc();
+		String query = service.getTitle();
 		
-		if(title != null && desc != null) {
-			return repo.findByTitleAndDescContaining(title, desc);
-		} else if (title != null && desc == null) {
-			return repo.findByTitleContaining(title);
-		} else if (title == null && desc != null) {
-			return repo.findByDescContaining(desc);
+		List<Service> services = new ArrayList<Service>();
+		List<Service> byDesc = new ArrayList<Service>();
+		
+		if (query != null) {
+			services = repo.findByTitleContaining(query);
+			byDesc = repo.findByDescContaining(query);
+			
+			// Go through Each List and Add
+			for(int i=0;i<byDesc.size();i++) {
+				if(!services.contains(byDesc.get(i))) {
+					services.add(byDesc.get(i));
+				}
+			}
+			
+			return services;
+			
 		} else {
 			return null;
 		}
 		
+	
 	}
 	
 }
