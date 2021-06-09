@@ -24,7 +24,9 @@ import com.neservice.models.Day;
 import com.neservice.models.Service;
 import com.neservice.models.Timetable;
 import com.neservice.models.TimetableDB;
+import com.neservice.models.UserBasic;
 import com.neservice.models.WorkingHours;
+import com.neservice.repository.LoginRepo;
 import com.neservice.repository.ServiceRepo;
 import com.neservice.repository.TimetableRepo;
 
@@ -35,6 +37,8 @@ public class TimetableResource {
 	private TimetableRepo trepo;
 	@Autowired
 	private ServiceRepo srepo;
+	@Autowired
+	private LoginRepo lrepo;	
 	
 	// Used to Read a JSON Document and Convert to Object
 	private ObjectMapper jmap = new ObjectMapper();
@@ -146,16 +150,24 @@ public class TimetableResource {
 		
 		// Get Each Service
 		Map<String, Service> services = new HashMap<String, Service>();
+		Map<String, UserBasic> reservers = new HashMap<String, UserBasic>();
 		
 		for(int i=0; i<bookings.size(); i++) {
 			String id = bookings.get(i).getId();
+			String reserver = bookings.get(i).getReserver();
+			
 			// Add New Services
 			if(!services.containsKey(bookings.get(i).getId())) {
 				services.put(id, srepo.findById(id).get()); 
 			}
+			// Add New Reservers
+			if(!reservers.containsKey(reserver)) {
+				reservers.put(reserver, new UserBasic(lrepo.findByEmail(reserver))); 
+			}
+			
 			
 			// Add the New Calendar Item
-			cal.add(new CalendarItem(bookings.get(i),services.get(id)));
+			cal.add(new CalendarItem(bookings.get(i),services.get(id), reservers.get(reserver)));
 		}
 		
 		return cal;
