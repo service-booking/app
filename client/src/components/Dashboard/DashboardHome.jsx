@@ -50,10 +50,10 @@ function DashboardHome() {
     }, [])
 
     const eventArr = data.map((ele) =>({
-        title : ele.title,
+        title : ele.service.title + " with "  ,
         allDay :false,
-        start : ele.startTime,
-        end:ele.endTime
+        start : ele.booking.startTime,
+        end:ele.booking.endTime
     }))
 
     console.log(eventArr)

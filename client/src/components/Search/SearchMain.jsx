@@ -174,16 +174,13 @@ function SearchMain() {
 
     const handleSubmit = () =>{
         const service ={
-            title: searchString
+            title: searchString,
+            desc: null
         }
         axios.post(`${JPA_URL}/${email}/search/service`, service)
         .then((res)=>{
-            if(res.data != []){
                 setData(res.data)
-            }
-            else{
-                //display no result 
-            }
+                console.log(res)
             
         })
 
@@ -211,10 +208,11 @@ function SearchMain() {
                 <WhiteDiv>
                     <WhiteBar>
                         <input className="search-input" onChange={(e) => setSearchString(e.target.value)}/>
-                        <button className="search-btn" onCLick={()=> handleSubmit()}>Search</button>
+                        <button className="search-btn" onClick={()=> handleSubmit()}>Search</button>
                     </WhiteBar>
                     <WhiteWrap>
                         <Container className="contain">
+                            {data.length === 0? <div>No results found</div> : ``}
                             {
                                 data.map((ele) =>
                                     <Row className="bubble">

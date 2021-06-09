@@ -63,11 +63,10 @@ const Navbar = () => {
     return (
         <Nav>
             <NavLink to="/profile"><ProfileDiv src ={defaultPic} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
-            <NavLink to="">History</NavLink>
             <NavLink to="/dashboard">Home</NavLink>
             {role=== "service" && <NavLink to="/service">My service</NavLink>}
-            <NavLink to="">My Bookings</NavLink>
-            <NavLink to="/search">Search</NavLink>
+            <NavLink to="/bookings">My Bookings</NavLink>
+            {role === "customer" && <NavLink to="/search">Search</NavLink>}
             <LogoutBtn onClick={() => logOut()}>Log out</LogoutBtn>
         </Nav>
     )
