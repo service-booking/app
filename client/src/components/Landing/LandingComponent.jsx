@@ -11,6 +11,7 @@ class LandingComponent extends Component {
 		this.state = {
 			username: "",
 			password: "",
+			error: ""
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -46,6 +47,11 @@ class LandingComponent extends Component {
 			);
 			let url = "/dashboard";
 			this.props.history.push(url);
+		})
+		.catch((err) =>{
+			this.setState({error :"Incorrect credentials"})
+			setTimeout(() => this.setState({error: ``}), 2000);
+			console.log(err)
 		});
 	}
 
@@ -93,6 +99,7 @@ class LandingComponent extends Component {
 								</button>
 								<Link className="register-btn" to="/register">Register</Link>
 							</Form>
+							<div>{this.state.error}</div>
 						</Container>
 					</div>
 				</div>

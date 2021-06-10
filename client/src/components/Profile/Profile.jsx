@@ -152,21 +152,33 @@ function Profile() {
 
 
      
-     const selectFile = (event) => {
-        setSelectedFiles(event.target.files);
-        console.log(event.target.files)
-      };
+    //  const selectFile = (event) => {
+    //      if(event != undefined){
+    //         setSelectedFiles(event.target.files);
+    //         console.log(selectedFiles)
+    //      }
+        
+    //   };
+
+    const handleFile= (e) => {
+        setSelectedFiles(e.target.files[0])
+        console.log(e.target.files[0])
+     }
      
      const upload = () =>{
-
         //using File API to get chosen file
-        setFile(selectedFiles[0]);
-        console.log( "file " + file)
+        // setSelectedFiles(selectedFiles[0]);
         
-        //calling async Promise and handling response or error situation
-        axios.post(`${JPA_URL}/${email}/profile/picture/upload`, selectedFiles[0])
+        const data = new FormData();
+        // //using File API to get chosen file
+        data.append('file', selectedFiles);
+        data.append('name', email);
+
+        // //calling async Promise and handling response or error situation
+        axios.post(`${JPA_URL}/${email}/profile/picture/upload`, data)
         .then((response) => {
             console.log(response.data);
+
         }).catch(function (error) {
             console.log(error);
             if (error.response) {
@@ -178,16 +190,25 @@ function Profile() {
             }
         });
 
-        setSelectedFiles(undefined);
      }
 
-     const first = data.firstName
     return (
         <Main>
             <Navbar/>
             <Background>
                 <Block>
                     <div>
+                        <div>
+                            <p>Change profile picture</p>
+                            <input type="file" onChange={(e) => handleFile(e)}/>
+                            <button
+                                className="btn btn-success"
+                                disabled={!selectedFiles}
+                                onClick={() => upload()}
+                            >
+                                Upload
+                            </button>
+                        </div>
                         <Formik
                             enableReinitialize
                             initialValues={{
@@ -218,17 +239,6 @@ function Profile() {
                                 <Form>
                                     <p>My Profile</p>
                                     <img src={data.profilePicture} width="200px"></img>
-                                    <div>
-                                        <p>Change profile picture</p>
-                                        <input type="file" onChange={selectFile}/>
-                                        <button
-                                            className="btn btn-success"
-                                            disabled={!selectedFiles}
-                                            onClick={upload}
-                                        >
-                                            Upload
-                                        </button>
-                                    </div>
                                     <Field className="profile-input" name="firstName" value={values.firstName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="lastName" value={values.lastName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="address" value={values.address} onChange={handleChange}></Field>
