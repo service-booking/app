@@ -92,6 +92,13 @@ function Profile() {
     const[message, setMessage] = useState('');
     const [on, setOn] = useState(false);
 
+
+    //files uploads states 
+
+    const [selectedFiles, setSelectedFiles] = useState(undefined);
+    const [currentFile, setCurrentFile] = useState(undefined);
+    const [fileInfos, setFileInfos] = useState([]);
+
     let sent = false;
 
     let role = sessionStorage.getItem('role');
@@ -134,6 +141,7 @@ function Profile() {
         setOn(false)
     }
 
+    //fetch user 
      useEffect(() =>{
          axios.get(`${JPA_URL}/${email}`)
          .then((res)=>{
@@ -141,7 +149,37 @@ function Profile() {
              setData(res.data)
          })
      },[])
+
+
      
+     const selectFile = (event) => {
+        setSelectedFiles(event.target.files);
+        console.log(event.target.files)
+      };
+     
+     const upload = () =>{
+
+        //using File API to get chosen file
+        setFile(selectedFiles[0]);
+        console.log( "file " + file)
+        
+        //calling async Promise and handling response or error situation
+        axios.post(`${JPA_URL}/${email}/profile/picture/upload`, selectedFiles[0])
+        .then((response) => {
+            console.log(response.data);
+        }).catch(function (error) {
+            console.log(error);
+            if (error.response) {
+                //HTTP error happened
+                console.log("Upload error. HTTP error/status code=",error.response.status);
+            } else {
+                //some other error happened
+               console.log("Upload error. HTTP error/status code=",error.message);
+            }
+        });
+
+        setSelectedFiles(undefined);
+     }
 
      const first = data.firstName
     return (
@@ -149,10 +187,6 @@ function Profile() {
             <Navbar/>
             <Background>
                 <Block>
-                    <div>
-                        <p>Change profile picture</p>
-                        <input type="file"/>
-                    </div>
                     <div>
                         <Formik
                             enableReinitialize
@@ -183,14 +217,25 @@ function Profile() {
                             {({isSubmitting, status, handleChange, values}) => (
                                 <Form>
                                     <p>My Profile</p>
-                                    <img src={defaultPic} width="200px"></img>
+                                    <img src={data.profilePicture} width="200px"></img>
+                                    <div>
+                                        <p>Change profile picture</p>
+                                        <input type="file" onChange={selectFile}/>
+                                        <button
+                                            className="btn btn-success"
+                                            disabled={!selectedFiles}
+                                            onClick={upload}
+                                        >
+                                            Upload
+                                        </button>
+                                    </div>
                                     <Field className="profile-input" name="firstName" value={values.firstName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="lastName" value={values.lastName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="address" value={values.address} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="media"  value={values.media} onChange={handleChange}></Field>
                                     <textarea className="text" type="textarea" name="about" value={values.about} onChange={handleChange}></textarea>
                                     <div>
-                                        <SaveBtn type="submit" >Save</SaveBtn>
+                                        <SaveBtn type="submit" disabled={isSubmitting}>Save</SaveBtn>
                                     </div>
                                 </Form>
 
@@ -206,10 +251,10 @@ function Profile() {
                     <PasswordBlock>
                         <h1 className="title">Change Password</h1>
                         <label>Old passowrd</label>
-                        <input value={oldPw} onChange={(e) => onOldPasswordChange(e.target.value)}></input>
+                        <input type="password" value={oldPw} onChange={(e) => onOldPasswordChange(e.target.value)}></input>
 
                         <label>New password</label>
-                        <input value={newPw} onChange={(e) => onNewPasswordChange(e.target.value)}></input>
+                        <input type="password" value={newPw} onChange={(e) => onNewPasswordChange(e.target.value)}></input>
 
                         <PasswordBtn onClick={()=> handleChangePassword()} >Change password</PasswordBtn>
                         {<div className="">{message}</div>}

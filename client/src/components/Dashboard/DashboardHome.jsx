@@ -49,13 +49,24 @@ function DashboardHome() {
        
     }, [])
 
+    const eventArr = data.map((ele) =>({
+        title : ele.service.title + " with "  ,
+        allDay :false,
+        start : new Date (ele.booking.startTime),
+        end:new Date(ele.booking.endTime)
+    }))
+
+    console.log(eventArr)
+
     const event = [{
-        title: 'pedicure',
+        title: "abc",
         allDay: false,
-        start: new Date('2021-06-06T02:00Z'),
-        end: new Date('2021-06-06T03:00Z'),
-        color: 'red'
+        start: new Date("2021-06-09T10:39:00Z"),
+        end: new Date("2021-06-09T12:39:00Z")
     }]
+
+    //conver dates
+    console.log(event[0].start)
 
     return (
         <Main>
@@ -70,7 +81,7 @@ function DashboardHome() {
                 <CalendarWrap>
                     <Calendar
                         localizer={localizer}
-                        events={event}
+                        events={eventArr}
                         startAccessor="start"
                         endAccessor="end"
                     />

@@ -14,6 +14,7 @@ import Service from '../Service/Service_main.jsx'
 import CreateService from '../Service/Create_service.jsx'
 import SearchComponent from '../Search/SearchMain.jsx'
 import ProfileComponent from '../Profile/Profile.jsx'
+import Bookings from '../Bookings/bookings.jsx'
 
 
 class BodyComponent extends Component {
@@ -33,6 +34,7 @@ class BodyComponent extends Component {
 							<AuthenticatedRoute path="/home" exact component={HomeComponent} />
                             <AuthenticatedRoute path="/search" exact component={SearchComponent} />
                             <AuthenticatedRoute path="/profile" exact component={ProfileComponent} />
+                            <AuthenticatedRoute path="/bookings" exact component={Bookings}/>
 
 							<AuthenticatedRoute component={ErrorComponent} />
                         </Switch>
