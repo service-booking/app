@@ -3,6 +3,7 @@ import {Formik, Form, Field, ErrorMessage} from 'formik';
 import './RegisterComponent.css';
 import AuthenticationService from "../Authentication/AuthenticationService.js";
 import {useHistory, useLocation} from "react-router-dom";
+import {Col, Row} from "react-bootstrap";
 
 function Register_service() {
 
@@ -103,71 +104,81 @@ function Register_service() {
             >
                 {({isSubmitting, status, handleChange, values}) => (
                     <Form className="form">
-                        <div className="label-input">
-                            <div display="flex" flex-direction="column">
-                                <label>First name</label>
-                                <Field
-                                    className="register-input"
-                                    name="firstName"
-                                    onChange={handleChange}
-                                    value={values.firstName}
-                                />
-                            </div>
-                            <div>
-                                <label>Last name</label>
-                                <Field
-                                    className="register-input"
-                                    name="lastName"
-                                    onChange={handleChange}
-                                    value={values.lastName}
-                                />
-                            </div>
-                        </div>
-                        <ErrorMessage className="fail" name="firstName" component='div'/>
-                        <ErrorMessage className="fail" name="lastName" component='div'/>
+                        <div className="flex">
+                            <Row>
+                                <div className="label-input">
+                                    <label>First name</label>
+                                    <Field
+                                        className="register-input"
+                                        name="firstName"
+                                        onChange={handleChange}
+                                        value={values.firstName}
+                                    />
+                                    <ErrorMessage className="fail" name="firstName" component='div'/>
+                                </div>
+                            </Row>
+                            <Row>
+                                <div className="label-input">
+                                    <label>Last name</label>
+                                    <Field
+                                        className="register-input"
+                                        name="lastName"
+                                        onChange={handleChange}
+                                        value={values.lastName}
+                                    />
+                                </div>
+                            </Row>
+                            <ErrorMessage className="fail" name="lastName" component='div'/>
 
-                        <div className="label-input">
-                            <div display="flex" flex-direction="column">
-                                <label>Email Address</label>
-                                <Field
-                                    className="register-input"
-                                    name="email"
-                                    onChange={handleChange}
-                                    value={values.email}
-                                />
-                            </div>
+                            <Row>
+                                <div className="label-input">
+                                    <div display="flex" flex-direction="column">
+                                        <label>Email Address</label>
+                                        <Field
+                                            className="register-input"
+                                            name="email"
+                                            onChange={handleChange}
+                                            value={values.email}
+                                        />
+                                    </div>
+                                </div>
+                                <ErrorMessage className="fail" name="email" component='div'/>
+                            </Row>
+                            <Row>
+                                <div className="label-input">
+                                    <div display="flex" flex-direction="column">
+                                        <label>Password</label>
+                                        <Field
+                                            className="register-input"
+                                            name="password"
+                                            type="password"
+                                            onChange={handleChange}
+                                            value={values.password}
+                                        />
+                                    </div>
+                                </div>
+                                <ErrorMessage className="fail" name="password" component='div'/>
+                            </Row>
+                            <Row>
+                                <div className="label-input">
+                                    <div display="flex" flex-direction="column">
+                                        <label>Postcode</label>
+                                        <Field
+                                            className="register-input"
+                                            name="postcode"
+                                            onChange={handleChange}
+                                            value={values.postcode}
+                                        />
+                                    </div>
+                                </div>
+                                <ErrorMessage className="fail" name="postcode" component='div'/>
+                            </Row>
+                            <Row>
+                                <button className="submit-btn" type="submit" disabled={isSubmitting}>{isSubmitting? "Submitting..." : "Submit"}</button>
+                                {status && <div className={status.classes}>{status.message}</div>}
+                            </Row>
                         </div>
-                        <ErrorMessage className="fail" name="email" component='div'/>
-
-                        <div className="label-input">
-                            <div display="flex" flex-direction="column">
-                                <label>Password</label>
-                                <Field
-                                    className="register-input"
-                                    name="password"
-                                    type="password"
-                                    onChange={handleChange}
-                                    value={values.password}
-                                />
-                            </div>
-                        </div>
-                        <ErrorMessage className="fail" name="password" component='div'/>
-        
-                        <div className="label-input">
-                            <div display="flex" flex-direction="column">
-                                <label>Postcode</label>
-                                <Field
-                                    className="register-input"
-                                    name="postcode"
-                                    onChange={handleChange}
-                                    value={values.postcode}
-                                />
-                            </div>
-                        </div>
-                        <ErrorMessage className="fail" name="postcode" component='div'/>
-                        
-                        <button className="submit-btn" type="submit" disabled={isSubmitting}>{isSubmitting? "Submitting..." : "Submit"}</button>
-                        {status && <div className={status.classes}>{status.message}</div>}
+                       
                 </Form>
 
                 )}

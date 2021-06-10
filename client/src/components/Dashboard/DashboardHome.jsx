@@ -50,23 +50,29 @@ function DashboardHome() {
     }, [])
 
     const eventArr = data.map((ele) =>({
-        title : ele.service.title + " with "  ,
+        title : ele.service.title  ,
         allDay :false,
-        start : new Date (ele.booking.startTime),
-        end:new Date(ele.booking.endTime)
+        start : new Date (convertDate(ele.booking.startTime)),
+        end:new Date(convertDate(ele.booking.endTime))
     }))
-
-    console.log(eventArr)
+    
+    function convertDate (date){
+        var value = date 
+        var time = value.substring(11, 16)
+        var year = value.substring(0,4);
+        var month = moment(value.substring(5,8)).format('MMMM');
+        var day = value.substring(8, 10)
+        var isoDateTime =month +" "+day+ ", " + year + " " + time
+        return isoDateTime
+    }
+    
 
     const event = [{
         title: "abc",
         allDay: false,
-        start: new Date("2021-06-09T10:39:00Z"),
-        end: new Date("2021-06-09T12:39:00Z")
+        start: new Date(convertDate("2021-06-09T10:39:00Z")),
+        end: new Date('June 09, 2021 21:00:00')
     }]
-
-    //conver dates
-    console.log(event[0].start)
 
     return (
         <Main>
