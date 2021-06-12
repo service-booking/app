@@ -81,16 +81,28 @@ public class ServiceResource {
 		String query = service.getTitle();
 		
 		List<Service> services = new ArrayList<Service>();
-		List<Service> byDesc = new ArrayList<Service>();
 		
 		if (query != null) {
-			services = repo.findByTitleContaining(query);
-			byDesc = repo.findByDescContaining(query);
+			List<Service> byTitle = repo.findByTitleContaining(query);
+			List<Service> byDesc = repo.findByDescContaining(query);
 			
 			// Go through Each List and Add
-			for(int i=0;i<byDesc.size();i++) {
-				if(!services.contains(byDesc.get(i))) {
-					services.add(byDesc.get(i));
+			for(int i=0; i<byTitle.size(); i++) {
+				// If the Status is Active
+				if(byTitle.get(i).getStatus()) {
+					// And it doesn't exist already
+					services.add(byTitle.get(i));
+				}
+			}
+						
+			// Go through Each List and Add
+			for(int i=0; i<byDesc.size(); i++) {
+				// If the Status is Active
+				if(byDesc.get(i).getStatus()) {
+					// And it doesn't exist already
+					if(!services.contains(byDesc.get(i))) {
+						services.add(byDesc.get(i));
+					}
 				}
 			}
 			
