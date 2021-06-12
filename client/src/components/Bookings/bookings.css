@@ -1,0 +1,27 @@
+.bubble{
+    border-radius: 15px;
+    background: white;
+    margin-top: .5em;
+    margin-bottom: .5em;
+    padding: 5px;
+    display:flex;
+    flex-direction: column;
+    width: 50%;
+
+}
+
+.delete-btn{
+    background-color: #7b77bd ;
+    color: white;
+    font-family: 'Raleway';
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    height: 50px;
+
+}
+
+.contain{
+    padding: 5%;
+    background: #DCCEDF;
+}

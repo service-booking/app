@@ -4,6 +4,9 @@ import FooterComponent from "../Footer/FooterComponent.jsx";
 import {Container, Form, Button} from "react-bootstrap";
 import AuthenticationService from "../Authentication/AuthenticationService.js";
 import {Link} from 'react-router-dom';
+import axios from 'axios'
+import { JPA_URL } from '../../Constants'
+export const ROLE = 'role'
 
 class LandingComponent extends Component {
 	constructor(props) {
@@ -11,6 +14,7 @@ class LandingComponent extends Component {
 		this.state = {
 			username: "",
 			password: "",
+			error: ""
 		};
 		this.handleSubmit = this.handleSubmit.bind(this);
 	}
@@ -44,8 +48,17 @@ class LandingComponent extends Component {
 				this.state.username,
 				response.data.token
 			);
-			let url = "/dashboard";
-			this.props.history.push(url);
+			// Add User Role to the Storage
+			axios.get(`${JPA_URL}/${this.state.username}/role`).then((response) => {
+				sessionStorage.setItem(ROLE, response.data);
+				let url = "/dashboard";
+				this.props.history.push(url);
+			});
+		})
+		.catch((err) =>{
+			this.setState({error :"Incorrect credentials"})
+			setTimeout(() => this.setState({error: ``}), 2000);
+			console.log(err)
 		});
 	}
 
@@ -93,6 +106,7 @@ class LandingComponent extends Component {
 								</button>
 								<Link className="register-btn" to="/register">Register</Link>
 							</Form>
+							<div>{this.state.error}</div>
 						</Container>
 					</div>
 				</div>

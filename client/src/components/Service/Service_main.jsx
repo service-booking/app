@@ -7,6 +7,7 @@ import { JPA_URL } from '../../Constants'
 import './Service.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Col, Row, Container, Button} from 'react-bootstrap'
+import {Formik, Form, Field, ErrorMessage} from 'formik';
 
 const Main = styled.div`
     display: flex;
@@ -63,12 +64,201 @@ const Edit = styled(Link)`
 
 `
 
+const Wrap = styled.label`
+    width: 120px;
+`
+
+
 function Service_main() {
     let history = useHistory();
     let email = sessionStorage.getItem('authenticatedUser')
+    const [on, setOn] = useState(false);
+    
 
     const [data, setData] = useState([]);
     const [isSubmitting, setSubmitting] = useState(false);
+    const [serviceData, setServiceData] = useState([]);
+    const [id, setBookingId] = useState("")
+
+    const displayOverlay = (id) =>{
+        setOn(true)
+        setBookingId(id)
+
+        axios.get(`${JPA_URL}/${email}/get/service/${id}`)
+        .then((res)=>{
+            setServiceData(res.data)
+        })
+    }
+
+    const close =()=>{
+        setOn(false)
+    }
+
+
+    const Overlay = () =>{
+        return(
+            <div className="overlayService">
+                
+                <Formik
+                    enableReinitialize
+
+                    initialValues={{
+                        serviceName: serviceData.title,
+                        price: serviceData.price,
+                        duration: serviceData.duration,
+                        desc: serviceData.desc,
+                    }}
+
+                    validate={(values, actions) => {
+                        let error ={}
+
+                        if(!values.serviceName){
+                            error.serviceName = `Service name cannot be empty`
+                        }
+
+                        if(!values.price){
+                            error.price = `Price cannot be empty`
+                        }
+
+                        if(!(/^(0(?!\.00)|[1-9]\d{0,6})\.\d{2}$/).test(values.price)){
+                            error.price= `Please key in valid price (1.00)`
+                        }
+
+                        if(!values.duration){
+                                error.duration= `Please key in valid duration`
+                        }
+                        
+                        if(!(/^[0-9]*$/).test(values.duration)){
+                            error.duration= `Please key in valid duration`
+                        }
+
+                        if(!values.desc){
+                            error.desc = `Description cannot be empty`
+                        }
+                        
+                        return error
+                    }}
+
+                    onSubmit ={async(values,actions) => {
+                        let output ={};
+                        let sent = false;
+                        let email = sessionStorage.getItem('authenticatedUser')
+                        const service ={
+                            title: values.serviceName,
+                            price: values.price,
+                            duration: parseInt(values.duration),
+                            desc: values.desc,
+                        }
+
+                        await axios.post(`${JPA_URL}/${email}/update/service/${id}`, service)
+                        .then((res) => {
+                            sent = true
+                            console.log('update')
+    
+                        })
+                        .catch(
+                            err => {
+                                console.log(err)
+                                console.log(id)
+                            }
+                        )
+
+                        // service created redirect to service main page 
+                        if(sent === true){
+                            output.classes = "success"
+                            output.message = 'Service created! You will be redirected'
+                            output.type= "success"
+
+                            actions.setStatus(output)
+                            actions.setSubmitting(true)
+
+                            setTimeout(() => output.message= " ", 2000);
+                            setTimeout(() => actions.setStatus(output), 3000);
+
+                            close();
+
+
+                            axios.get(`${JPA_URL}/${email}/get/services`)
+                            .then((res)=> {
+                                setData(res.data)
+                            })
+          
+                        }
+
+                    }}
+
+                >
+                    {({isSubmitting, status, handleChange, values}) => (
+                        <Form>
+                            <div>
+                                <div className="label-input">
+                                    <Wrap>
+                                        <label>Service name</label>
+                                        <Field
+                                            className="register-input"
+                                            name="serviceName"
+                                            onChange={handleChange}
+                                            value={values.serviceName}
+                                        />
+                                    </Wrap>
+                                    <ErrorMessage className="fail" name="serviceName" component='div'/>
+                                </div>
+
+                                <div className="label-input">
+                                    <label>Price</label>
+                                    <Field
+                                        className="register-input"
+                                        name="price"
+                                        onChange={handleChange}
+                                        value={values.price}
+                                    />
+                                </div>
+                                <ErrorMessage className="fail" name="price" component='div'/>
+
+                                <div className="label-input">
+                                    <label>Duration</label>
+                                    <Row>
+                                        <Field
+                                            className="register-input"
+                                            name="duration"
+                                            onChange={handleChange}
+                                            value={values.duration}
+                                        />
+                                        <p>min</p>
+                                    </Row>
+                                </div>
+                                <ErrorMessage className="fail" name="duration" component='div'/>
+
+                                <div className="label-input">
+                                    <label>Service description</label>
+                                    <Field
+                                        className="register-about-me"
+                                        name="desc"
+                                        onChange={handleChange}
+                                        value={values.desc} 
+                                    >
+                                    </Field>
+                                </div>
+                                <ErrorMessage className="fail" name="desc" component="div"/>
+
+                                <div>
+                                    <button className="booking-btn" type="submit" disabled={isSubmitting} >Update</button>
+                                    <button className="booking-btn" onClick={() => close()}>Cancel</button>
+                                </div>
+                                {status && <div className={status.classes}>{status.message}</div>}
+                            </div>
+                        </Form>
+                    )}
+
+
+                </Formik>
+               
+               
+                
+            </div>
+        )
+    }
+
 
     const handleDelete= (id) =>{
         axios.delete(`${JPA_URL}/${email}/disable/service/${id}`)
@@ -86,7 +276,7 @@ function Service_main() {
             setData(res.data)
         })
        
-    }, [isSubmitting])
+    }, [])
 
     return (
         <Main>
@@ -110,7 +300,7 @@ function Service_main() {
                             <p className="price">${ele.price}</p>
                         </div>   
                         <div className="btn-wrap">
-                            <Edit to="">Edit</Edit>
+                            <Edit onClick={() => displayOverlay(ele.id)}>Edit</Edit>
                             <button className="delete-btn" onClick={() => handleDelete(ele.id)}>remove</button>
                         </div>
                 
@@ -120,6 +310,7 @@ function Service_main() {
                     )}
                     </Container>                    
                 </WhiteWrap> 
+                {on? <Overlay className="overlay"/>:""}
 
             </ServiceWrap>
             

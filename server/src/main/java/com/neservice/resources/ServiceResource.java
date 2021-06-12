@@ -42,6 +42,11 @@ public class ServiceResource {
 		return services;
 	}
 	
+	@GetMapping("/jpa/get/services")
+	public List<Service> getAllActiveServices(){
+		return repo.findByStatus(true);
+	}
+	
 	@PostMapping("/jpa/{email}/create/service")
 	public ResponseEntity<Void> createService(@PathVariable String email, @RequestBody Service service){
 		// Add the Provider to the Service
@@ -78,19 +83,41 @@ public class ServiceResource {
 	
 	@PostMapping("/jpa/{email}/search/service")
 	public List<Service> searchService(@PathVariable String email, @RequestBody Service service){
-		String title = service.getTitle();
-		String desc = service.getDesc();
+		String query = service.getTitle();
 		
-		if(title != null && desc != null) {
-			return repo.findByTitleAndDescContaining(title, desc);
-		} else if (title != null && desc == null) {
-			return repo.findByTitleContaining(title);
-		} else if (title == null && desc != null) {
-			return repo.findByDescContaining(desc);
+		List<Service> services = new ArrayList<Service>();
+		
+		if (query != null) {
+			List<Service> byTitle = repo.findByTitleContaining(query);
+			List<Service> byDesc = repo.findByDescContaining(query);
+			
+			// Go through Each List and Add
+			for(int i=0; i<byTitle.size(); i++) {
+				// If the Status is Active
+				if(byTitle.get(i).getStatus()) {
+					// And it doesn't exist already
+					services.add(byTitle.get(i));
+				}
+			}
+						
+			// Go through Each List and Add
+			for(int i=0; i<byDesc.size(); i++) {
+				// If the Status is Active
+				if(byDesc.get(i).getStatus()) {
+					// And it doesn't exist already
+					if(!services.contains(byDesc.get(i))) {
+						services.add(byDesc.get(i));
+					}
+				}
+			}
+			
+			return services;
+			
 		} else {
 			return null;
 		}
 		
+	
 	}
 	
 }

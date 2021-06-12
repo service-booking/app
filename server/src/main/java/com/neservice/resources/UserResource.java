@@ -7,7 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,6 +34,8 @@ import com.neservice.repository.LoginRepo;
 public class UserResource {
 	@Autowired
 	private LoginRepo repo;	
+	@Autowired
+	private PasswordEncoder bCrypt;
 	@Autowired
     private AmazonS3Config conf;
 	
@@ -74,8 +76,7 @@ public class UserResource {
 		// Used to Store Retrieved Data to Database
 		User db = repo.findByEmail(email);
 		
-		// Test and Save the Password
-		BCryptPasswordEncoder bCrypt = new BCryptPasswordEncoder();  		
+		// Test and Save the Password 		
 		user.setPassword(bCrypt.encode(user.getPassword()));
 		
 		if(bCrypt.matches(oldPassword, db.getPassword())) {

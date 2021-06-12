@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React , {useState, useEffect} from 'react'
 import {Formik, Form, Field, ErrorMessage, validateYupSchema} from 'formik'
 import './RegisterComponent.css'
 import AuthenticationService from "../Authentication/AuthenticationService.js";
@@ -6,23 +6,38 @@ import {useHistory, useLocation} from "react-router-dom";
 import { checkServerIdentity } from 'tls';
 import axios from 'axios';
 import { JPA_URL } from '../../Constants';
+import {Row, FormGroup} from 'react-bootstrap';
 
 function Register_service() {
    
     let history = useHistory();
     const [list, setList] = useState([]);
-
+    const [newList, setNewList] = useState([]);
+    const [profilePicture, setProfilePicture] = useState("");
 
     const handleCheckBox = (day) =>{
         if(list.includes(day)){
-            list.pop(day)
+            var newList ;
+            newList = list.pop(day)
+            setList(newList)
         }
         else{
             list.push(day)
+            setList(list)
         }
 
         console.log(list)
     }
+
+    const toggleCheckedbox = () =>{
+
+    }
+
+    useEffect(() => {
+        axios.get(`${JPA_URL}/default`).then((res) =>{
+            setProfilePicture(res.data)
+        })
+    }, [])
 
 
     return (
@@ -61,6 +76,7 @@ function Register_service() {
                 validate={(values, actions) => {
                     let error={}
                     let regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
+                    let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
                     if(!values.firstName){
                         error.firstName = `First name cannot be empty`
@@ -76,6 +92,10 @@ function Register_service() {
 
                     if(!values.email){
                         error.email = `Email cannot be empty`
+                    }
+
+                    if(!emailRegex.test(values.email)){
+                        error.email = `Please enter valid email format`
                     }
 
                     if(!values.password){
@@ -122,6 +142,7 @@ function Register_service() {
                         address: values.address,
                         media: values.media,
                         about: values.about,
+                        profilePicture: profilePicture,
                         accountType: 'service'
                     }
 
@@ -196,7 +217,12 @@ function Register_service() {
                                         value={values.firstName}
                                     />
                                 </div>
-                                <div>
+                                <ErrorMessage className="fail" name="firstName" component='div'/>
+                            </div>   
+                            
+
+                            <div className="label-input">
+                                <div isplay="flex" flex-direction="column">
                                     <label>Last name</label>
                                     <Field
                                         className="register-input"
@@ -205,12 +231,13 @@ function Register_service() {
                                         value={values.lastName}
                                     />
                                 </div>
+                                <ErrorMessage className="fail" name="lastName" component='div'/>
                             </div>
-                            <ErrorMessage className="fail" name="firstName" component='div'/>
                             
-                            <ErrorMessage className="fail" name="lastName" component='div'/>
+                        
 
-                            <div className="label-input">
+                            <FormGroup>
+                                <div display="flex">
                                 <label>Business name</label>
                                 <Field
                                     className="register-input"
@@ -218,7 +245,10 @@ function Register_service() {
                                     onChange={handleChange}
                                     value={values.businessName}
                                 />
-                            </div>
+
+                                </div>
+                                
+                            </FormGroup>
                             <ErrorMessage className="fail" name="businessName" component='div'/>
 
                             <div className="label-input">
@@ -262,7 +292,7 @@ function Register_service() {
                             <ErrorMessage className="fail" name="address" component='div'/>
                             
                             <div className="label-input">
-                                <div display="flex" flex-direction="column">
+                                <div>
                                     <label>Social Media Handler</label>
                                     <Field
                                         className="register-input"
@@ -290,7 +320,7 @@ function Register_service() {
                             <button className="submit-btn" type="submit" disabled={isSubmitting}>{isSubmitting? "Submitting..." : "Submit"}</button>
                         </div>
                         <div>
-                            <h1>Operating hours</h1>
+                            <h4>Operating hours</h4>
                             <label>
                                 <Field name="days" type="checkbox" value="monday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                 Monday

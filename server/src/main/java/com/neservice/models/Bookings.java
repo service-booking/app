@@ -129,6 +129,12 @@ public class Bookings implements Comparable<Bookings> {
 		return day.toLowerCase();
 	}
 	
+	public void convertToIso() {
+		// Update @startTime and @endTime to IsoString
+		this.startTime = String.format("%d-%02d-%02dT%sZ", this.retrieveYear(),this.retrieveMonth(),this.retrieveDay(),this.startTime);
+		this.endTime = String.format("%d-%02d-%02dT%sZ", this.retrieveYear(),this.retrieveMonth(),this.retrieveDay(),this.endTime);
+	}
+	
 	public void displayBooking() {
 		System.out.print("Reserver: "+this.reserver);
 		System.out.print(", Service ID: "+this.id);

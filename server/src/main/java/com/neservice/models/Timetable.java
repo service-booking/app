@@ -54,6 +54,15 @@ public class Timetable {
 	public List<Bookings> getBookings() {
 		return bookings;
 	}
+	
+	public List<Bookings> retrieveIsoBookings() {
+		// Go Through All Bookings and Convert
+		for(int i=0; i<bookings.size(); i++) {
+			bookings.get(i).convertToIso();
+		}
+		
+		return bookings;
+	}
 
 	// Setters 
 	public void setEmail(String email) {
