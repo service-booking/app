@@ -30,12 +30,10 @@ function DashboardHome() {
 
     const [events, setEvents] = useState([]);
     const email = sessionStorage.getItem("authenticatedUser")
-    const [role, setRole] = useState("");
   
-    
+    let role = sessionStorage.getItem("role")
 
     useEffect(() => {  
-        setRole(sessionStorage.getItem("role"))
         
         const fetchData = () =>{
             if(role === "customer"){
@@ -50,12 +48,10 @@ function DashboardHome() {
                     console.log("error from reserver")
                 })
             }
-            else if(role === "provider"){
+            else if(role === "service"){
                 axios.get(`${JPA_URL}/${email}/get/bookings/provider`)
                 .then((res)=> {
                     console.log(res)
-                    console.log("got it from provider" )
-                    setData(res.data)
                     setData(res.data)
                 })
                 .catch((err) =>{
