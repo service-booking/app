@@ -25,9 +25,6 @@ function Workinghours (props){
 
     return (
         <div className="main">
-                <div>
-                    <h1>Current working hours</h1>
-                </div>
                 <Formik
                     enableReinitialize
                     initialValues={{
