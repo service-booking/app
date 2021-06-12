@@ -6,13 +6,15 @@ import {useHistory, useLocation} from "react-router-dom";
 import defaultPic from '../Image/default.png'; 
 import axios from 'axios';
 import { JPA_URL } from '../../Constants'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome , faCalendar, faSearch, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
+import './Navbar.css'
 
 
 const Nav = styled.nav`
     background: #28254F;
     height: 100vh;
-    width: calc(200px + 2vw);
+    width: calc(210px + 2vw);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,6 +25,10 @@ const NavLink = styled(Link)`
     font-family: 'Raleway';
     text-decoration: none;
     margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    width: 59%;
+
     margin-bottom: 10px;
     font-size: 20px;
     &:hover{
@@ -75,12 +81,14 @@ const Navbar = () => {
     return (
         <Nav>
             <NavLink to="/profile"><ProfileDiv src ={data.profile} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
-            <NavLink to="/dashboard">Home</NavLink>
+            <NavLink to="/dashboard"><div className="icon"><FontAwesomeIcon  icon={faHome}/></div>Home</NavLink>
             {role=== "service" && <NavLink to="/service">My service</NavLink>}
-            <NavLink to="/bookings">My Bookings</NavLink>
-            {role === "customer" && <NavLink to="/search">Search</NavLink>}
-            <LogoutBtn onClick={() => logOut()}>Log out</LogoutBtn>
+            <NavLink to="/bookings"><FontAwesomeIcon className="icon" icon={faCalendar} />Bookings</NavLink>
+            {role === "customer" && <NavLink to="/search"><FontAwesomeIcon className="icon" icon={faSearch} />Search</NavLink>}
+            <LogoutBtn onClick={() => logOut()}><FontAwesomeIcon className="icon" icon={faSignOutAlt}></FontAwesomeIcon> Log out</LogoutBtn>
+            
         </Nav>
+
     )
 }
 
