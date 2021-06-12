@@ -28,14 +28,9 @@ function Bookings() {
 
     let role;
 
-    async function getSession (){
-        sessionStorage.getItem("role")
-        role = await sessionStorage.getItem("role")
-    }
+    role =  sessionStorage.getItem("role")
 
     useEffect(() => {   
-        
-        getSession();
 
         if(role === "customer"){
             axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
@@ -66,10 +61,21 @@ function Bookings() {
         axios.post(`${JPA_URL}/${email}/cancel/booking/${id}`, booking)
         .then((res)=>{
 
-            axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
-            .then((res) =>{
-                setData(res.data)
-            })
+            if(role === "customer"){
+                axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
+                .then((res)=> {
+                    console.log(res)
+                    setData(res.data)
+                })
+            }
+            else{
+                axios.get(`${JPA_URL}/${email}/get/bookings/provider`)
+                .then((res)=> {
+                    console.log(res)
+                    setData(res.data)
+                })
+    
+            }
 
         })
     }
@@ -82,7 +88,7 @@ function Bookings() {
                 <h1>Your Bookings </h1>
                 {data.length === 0 ? <div>You have no upcoming bookings</div> : ``}
                 {data.map((ele) => 
-                    <Row className="bubble">
+                    <Row className="bubble" >
                         <Detail>Service : {ele.service.title}</Detail>
                         <Detail>Service description: { ele.service.desc }</Detail>
                         <Detail>Price: {ele.service.price}</Detail>
