@@ -42,6 +42,11 @@ public class ServiceResource {
 		return services;
 	}
 	
+	@GetMapping("/jpa/get/services")
+	public List<Service> getAllActiveServices(){
+		return repo.findByStatus(true);
+	}
+	
 	@PostMapping("/jpa/{email}/create/service")
 	public ResponseEntity<Void> createService(@PathVariable String email, @RequestBody Service service){
 		// Add the Provider to the Service
