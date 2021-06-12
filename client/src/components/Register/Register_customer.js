@@ -38,6 +38,7 @@ function Register_service() {
 
                 validate={(values, actions) => {
                     let error={}
+                    let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
                     if(!values.firstName){
                         error.firstName = `First name cannot be empty`
@@ -49,6 +50,10 @@ function Register_service() {
 
                     if(!values.email){
                         error.email = `Email cannot be empty`
+                    }
+
+                    if(values.email && !emailRegex.test(values.email)){
+                        error.email = `Please enter valid email format`
                     }
 
                     if(!values.password){
@@ -126,10 +131,11 @@ function Register_service() {
                                             onChange={handleChange}
                                             value={values.firstName}
                                         />
-                                        <ErrorMessage className="fail" name="firstName" component='div'/>
+                                        
                                     </div>
                                     
                                 </div>
+                                <ErrorMessage className="fail" name="firstName" component='div'/>
                             </Row>
                             <Row>
                                 <div className="label-input">
@@ -143,8 +149,9 @@ function Register_service() {
                                         />
                                     </div>
                                 </div>
+                                <ErrorMessage className="fail" name="lastName" component='div'/>
                             </Row>
-                            <ErrorMessage className="fail" name="lastName" component='div'/>
+                            
 
                             <Row>
                                 <div className="label-input">

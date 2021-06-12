@@ -54,6 +54,8 @@ const PasswordBlock=styled.div`
     box-shadow: -5px 7px 13px 0px #6B6B6B;
     height: 45%;
     padding: 5px;
+    display: flex;
+    flex-direction: column;
 `
 
 const PasswordBtn=styled.button`
@@ -92,6 +94,7 @@ function Profile() {
     const [newPw, setNewPw] = useState('');
     const[message, setMessage] = useState('');
     const [on, setOn] = useState(false);
+    const [workingHours, setWorkingHours] = useState([]);
     
     let history = useHistory();
 
@@ -104,6 +107,13 @@ function Profile() {
     let sent = false;
 
     let role = sessionStorage.getItem('role');
+
+    useEffect(() => {
+        axios.get(`${JPA_URL}/${email}/get/workingHours`)
+        .then((res) =>{
+            setWorkingHours(res.data)
+        })
+    }, [])
 
     const onNewPasswordChange =(value) =>{
         setNewPw(value)
@@ -234,11 +244,20 @@ function Profile() {
                                 .then((res)=> {
                                     console.log('successfully updated')
                                     output.message = "Successfully updated!"
-                                    setTimeout(() => output.message ="", 3000);
+
                                 })
                                 .catch((err)=>{
                                     console.log(err)
                                 })
+
+                                actions.setStatus(output)
+                                actions.setSubmitting(true)
+
+                                setTimeout(() => actions.setSubmitting(false), 2000);
+                                setTimeout(() => actions.setStatus(""), 3000);
+
+                                
+
                             }}
                         >
 
@@ -249,11 +268,11 @@ function Profile() {
                                     <Field className="profile-input" name="firstName" value={values.firstName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="lastName" value={values.lastName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="address" value={values.address} onChange={handleChange}></Field>
-                                    <Field className="profile-input" name="media"  value={values.media} onChange={handleChange}></Field>
-                                    <textarea className="text" type="textarea" name="about" value={values.about} onChange={handleChange}></textarea>
+                                    {role === "provider"  && <Field className="profile-input" name="media"  value={values.media} onChange={handleChange}></Field>}
+                                    {role === "provider" && <textarea className="text" type="textarea" name="about" value={values.about} onChange={handleChange}></textarea>}
                                     <div>
                                         <SaveBtn type="submit" disabled={isSubmitting}>Save</SaveBtn>
-                                        <div>{output.message}</div>
+                                        {status && <div>{output.message}</div>}
                                     </div>
                                 </Form>
 
@@ -283,7 +302,7 @@ function Profile() {
                             <ChangeHours onClick={()=>displayOverlay()}>Change Operating hours</ChangeHours>
                         </div>
                     }
-                    {on === true ? <Workinghours/>: ""}
+                    {on === true ? <Workinghours hours={workingHours}/>: ""}
                     {on === true? <CloseOverlay onClick={() =>close()}>Close</CloseOverlay>: ""}
                 </div>
                 

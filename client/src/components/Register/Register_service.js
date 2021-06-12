@@ -76,6 +76,7 @@ function Register_service() {
                 validate={(values, actions) => {
                     let error={}
                     let regex = /^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$/
+                    let emailRegex = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
 
                     if(!values.firstName){
                         error.firstName = `First name cannot be empty`
@@ -91,6 +92,10 @@ function Register_service() {
 
                     if(!values.email){
                         error.email = `Email cannot be empty`
+                    }
+
+                    if(!emailRegex.test(values.email)){
+                        error.email = `Please enter valid email format`
                     }
 
                     if(!values.password){
@@ -203,7 +208,7 @@ function Register_service() {
                     <Form className="form">
                         <div>
                             <div className="label-input">
-                                <div>
+                                <div display="flex" flex-direction="column">
                                     <label>First name</label>
                                     <Field
                                         className="register-input"
@@ -212,7 +217,12 @@ function Register_service() {
                                         value={values.firstName}
                                     />
                                 </div>
-                                <div>
+                                <ErrorMessage className="fail" name="firstName" component='div'/>
+                            </div>   
+                            
+
+                            <div className="label-input">
+                                <div isplay="flex" flex-direction="column">
                                     <label>Last name</label>
                                     <Field
                                         className="register-input"
@@ -221,10 +231,10 @@ function Register_service() {
                                         value={values.lastName}
                                     />
                                 </div>
+                                <ErrorMessage className="fail" name="lastName" component='div'/>
                             </div>
-                            <ErrorMessage className="fail" name="firstName" component='div'/>
                             
-                            <ErrorMessage className="fail" name="lastName" component='div'/>
+                        
 
                             <FormGroup>
                                 <div display="flex">

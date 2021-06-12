@@ -5,7 +5,8 @@ import { JPA_URL } from '../../Constants';
 import "./workinghours.css"
 
 
-function Workinghours() {
+function Workinghours (props){
+    console.log(props.hours)
     const [data, setData] = useState([])
     const [list, setList] = useState([]);
     let email = sessionStorage.getItem("authenticatedUser")
@@ -21,29 +22,20 @@ function Workinghours() {
         console.log(list)
     }
 
-    useEffect(() => {
-        axios.get(`${JPA_URL}/${email}/get/workingHours`)
-        .then((res) =>{
-            setData(res)
-            console.log(res.data)
-        })
-    }, [])
-
 
     return (
         <div className="main">
                 <div>
                     <h1>Current working hours</h1>
-
-
                 </div>
                 <Formik
+                    enableReinitialize
                     initialValues={{
-                        mondayStart:``,
-                        mondayEnd:``,
-                        tuesdayStart:``,
-                        tuesdayEnd:``,
-                        wednesdayStart:``,
+                        mondayStart: ``,
+                        mondayEnd: ``,
+                        tuesdayStart: ``,
+                        tuesdayEnd: ``,
+                        wednesdayStart: ``,
                         wednesdayEnd: ``,
                         thursdayStart: ``,
                         thursdayEnd: ``,
