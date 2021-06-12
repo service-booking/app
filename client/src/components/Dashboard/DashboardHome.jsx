@@ -36,8 +36,6 @@ function DashboardHome() {
 
     useEffect(() => {  
         setRole(sessionStorage.getItem("role"))
-
-        getProfilePicture()
         
         const fetchData = () =>{
             if(role === "customer"){
