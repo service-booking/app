@@ -12,7 +12,7 @@ function Register_service() {
    
     let history = useHistory();
     const [list, setList] = useState([]);
-
+    const [newList, setNewList] = useState([]);
 
     const handleCheckBox = (day) =>{
         if(list.includes(day)){
@@ -26,6 +26,16 @@ function Register_service() {
         }
 
         console.log(list)
+    }
+
+    const toggleCheckedbox = () =>{
+
+    }
+
+    const getProfilePicture = () =>{
+        axios.get(`${JPA_URL}/default`).then((res) =>{
+            return res
+        })
     }
 
 
@@ -126,6 +136,7 @@ function Register_service() {
                         address: values.address,
                         media: values.media,
                         about: values.about,
+                        profilePicture: getProfilePicture(),
                         accountType: 'service'
                     }
 

@@ -7,7 +7,7 @@ import defaultPic from '../Image/default.png';
 import axios from 'axios';
 import { JPA_URL } from '../../Constants'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome , faCalendar, faSearch, faSignOutAlt} from '@fortawesome/free-solid-svg-icons'
+import { faHome , faCalendar, faSearch, faSignOutAlt, faUser} from '@fortawesome/free-solid-svg-icons'
 import './Navbar.css'
 
 
@@ -80,11 +80,11 @@ const Navbar = () => {
 
     return (
         <Nav>
-            <NavLink to="/profile"><ProfileDiv src ={data.profile} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
+            <NavLink to="/profile"><ProfileDiv src ={data.profilePicture} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
             <NavLink to="/dashboard"><div className="icon"><FontAwesomeIcon  icon={faHome}/></div>Home</NavLink>
-            {role=== "service" && <NavLink to="/service">My service</NavLink>}
+            {role && role=== "service" && <NavLink to="/service"><FontAwesomeIcon className="icon" icon={faUser} />Service</NavLink>}
             <NavLink to="/bookings"><FontAwesomeIcon className="icon" icon={faCalendar} />Bookings</NavLink>
-            {role === "customer" && <NavLink to="/search"><FontAwesomeIcon className="icon" icon={faSearch} />Search</NavLink>}
+            {role && role === "customer" && <NavLink to="/search"><FontAwesomeIcon className="icon" icon={faSearch} />Search</NavLink>}
             <LogoutBtn onClick={() => logOut()}><FontAwesomeIcon className="icon" icon={faSignOutAlt}></FontAwesomeIcon> Log out</LogoutBtn>
             
         </Nav>

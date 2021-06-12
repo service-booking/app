@@ -30,25 +30,45 @@ function DashboardHome() {
 
     const [events, setEvents] = useState([]);
     const email = sessionStorage.getItem("authenticatedUser")
-    const role = sessionStorage.getItem("role")
+     let role;
+
+    sessionStorage.getItem("role")
+    role = sessionStorage.getItem("role")
 
     useEffect(() => {   
 
-        if(role === "customer"){
-            axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
-            .then((res)=> {
-                console.log(res)
-                setData(res.data)
-            })
-        }
-        else{
-            axios.get(`${JPA_URL}/${email}/get/bookings/provider`)
-            .then((res)=> {
-                console.log(res)
-                setData(res.data)
-            })
+        const fetchData = () =>{
+            if(role === "customer"){
+                axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
+                .then((res)=> {
+                    console.log(res.data)
+                    console.log("got it from reserver" )
+                    setData(res.data)
+                })
+                .catch((err)=>{
+                    console.log(err)
+                    console.log("error from reserver")
+                })
+            }
+            else if(role === "provider"){
+                axios.get(`${JPA_URL}/${email}/get/bookings/provider`)
+                .then((res)=> {
+                    console.log(res)
+                    console.log("got it from provider" )
+                    setData(res.data)
+                    setData(res.data)
+                })
+                .catch((err) =>{
+                    console.log(err)
+                    console.log("error from provider")
+                })
+    
+            }
 
         }
+
+        fetchData()
+        
        
     }, [])
 
