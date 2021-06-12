@@ -1,4 +1,4 @@
-import React , {useState} from 'react'
+import React , {useState, useEffect} from 'react'
 import {Formik, Form, Field, ErrorMessage, validateYupSchema} from 'formik'
 import './RegisterComponent.css'
 import AuthenticationService from "../Authentication/AuthenticationService.js";
@@ -13,6 +13,7 @@ function Register_service() {
     let history = useHistory();
     const [list, setList] = useState([]);
     const [newList, setNewList] = useState([]);
+    const [profilePicture, setProfilePicture] = useState("");
 
     const handleCheckBox = (day) =>{
         if(list.includes(day)){
@@ -32,11 +33,11 @@ function Register_service() {
 
     }
 
-    const getProfilePicture = () =>{
+    useEffect(() => {
         axios.get(`${JPA_URL}/default`).then((res) =>{
-            return res
+            setProfilePicture(res.data)
         })
-    }
+    }, [])
 
 
     return (
@@ -136,7 +137,7 @@ function Register_service() {
                         address: values.address,
                         media: values.media,
                         about: values.about,
-                        profilePicture: getProfilePicture(),
+                        profilePicture: profilePicture,
                         accountType: 'service'
                     }
 

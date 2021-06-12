@@ -30,13 +30,15 @@ function DashboardHome() {
 
     const [events, setEvents] = useState([]);
     const email = sessionStorage.getItem("authenticatedUser")
-     let role;
+    const [role, setRole] = useState("");
+  
+    
 
-    sessionStorage.getItem("role")
-    role = sessionStorage.getItem("role")
+    useEffect(() => {  
+        setRole(sessionStorage.getItem("role"))
 
-    useEffect(() => {   
-
+        getProfilePicture()
+        
         const fetchData = () =>{
             if(role === "customer"){
                 axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)

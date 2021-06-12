@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {Formik, Form, Field, ErrorMessage} from 'formik';
 import './RegisterComponent.css';
 import AuthenticationService from "../Authentication/AuthenticationService.js";
@@ -10,12 +10,14 @@ import { JPA_URL } from '../../Constants';
 function Register_service() {
 
     let history = useHistory();
+    const [profilePicture, setProfilePicture] = useState("");
 
-    const getProfilePicture = () =>{
+
+    useEffect(() => {
         axios.get(`${JPA_URL}/default`).then((res) =>{
-            return res
+            setProfilePicture(res.data)
         })
-    }
+    }, [])
    
 
     return (
@@ -69,7 +71,7 @@ function Register_service() {
                         email: values.email.trim(),
                         password: values.password,
                         address: values.postcode,
-                        profilePicture: getProfilePicture(),
+                        profilePicture: profilePicture,
                         media: null,
                         about: null,
                         accountType: 'customer'

@@ -9,9 +9,6 @@ import { JPA_URL } from '../../Constants';
 import DateTimePicker from 'react-datetime-picker';
 import { useHistory } from 'react-router-dom';
 
-
-
-
 const Main = styled.div`
     display: flex;
     flex-direction: row;
