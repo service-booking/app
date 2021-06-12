@@ -268,8 +268,8 @@ function Profile() {
                                     <Field className="profile-input" name="firstName" value={values.firstName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="lastName" value={values.lastName} onChange={handleChange}></Field>
                                     <Field className="profile-input" name="address" value={values.address} onChange={handleChange}></Field>
-                                    {role === "provider"  && <Field className="profile-input" name="media"  value={values.media} onChange={handleChange}></Field>}
-                                    {role === "provider" && <textarea className="text" type="textarea" name="about" value={values.about} onChange={handleChange}></textarea>}
+                                    {role === "service"  && <Field className="profile-input" name="media"  value={values.media} onChange={handleChange}></Field>}
+                                    {role === "service" && <textarea className="text" type="textarea" name="about" value={values.about} onChange={handleChange}></textarea>}
                                     <div>
                                         <SaveBtn type="submit" disabled={isSubmitting}>Save</SaveBtn>
                                         {status && <div>{output.message}</div>}
