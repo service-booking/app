@@ -43,3 +43,16 @@
 .price{
     color: #53d8cf;
 }
+
+.overlayService{
+    height: 99vh;
+    background:white;
+    width:  100%;
+    position: fixed; 
+    top: 1%;
+    left: 19%;
+    right: 0;
+    bottom: 0;
+    z-index: 2; 
+    padding: 4%;
+}

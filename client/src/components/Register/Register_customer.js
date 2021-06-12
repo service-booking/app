@@ -4,10 +4,18 @@ import './RegisterComponent.css';
 import AuthenticationService from "../Authentication/AuthenticationService.js";
 import {useHistory, useLocation} from "react-router-dom";
 import {Col, Row} from "react-bootstrap";
+import axios from 'axios';
+import { JPA_URL } from '../../Constants';
 
 function Register_service() {
 
     let history = useHistory();
+
+    const getProfilePicture = () =>{
+        axios.get(`${JPA_URL}/default`).then((res) =>{
+            return res
+        })
+    }
    
 
     return (
@@ -61,6 +69,7 @@ function Register_service() {
                         email: values.email.trim(),
                         password: values.password,
                         address: values.postcode,
+                        profilePicture: getProfilePicture(),
                         media: null,
                         about: null,
                         accountType: 'customer'

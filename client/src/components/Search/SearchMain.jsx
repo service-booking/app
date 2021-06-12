@@ -162,7 +162,7 @@ function SearchMain() {
         
         setBookingDate(MyDateString)
 
-        axios.post(`${JPA_URL}/${email}/get/available/bookings/${currentId}`,date)
+        axios.post(`${JPA_URL}/${email}/get/available/bookings/${currentId}`,MyDateString)
         .then((res)=>{
             setError(false)
             setAvailableTimes(res.data)

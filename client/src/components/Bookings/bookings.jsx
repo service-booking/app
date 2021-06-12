@@ -26,12 +26,33 @@ function Bookings() {
     const [data, setData] = useState([]);
     const email = sessionStorage.getItem('authenticatedUser')
 
-    useEffect(() => {
-        axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
-        .then((res) =>{
-            setData(res.data)
-            console.log(res.data)
-        })
+    let role;
+
+    async function getSession (){
+        sessionStorage.getItem("role")
+        role = await sessionStorage.getItem("role")
+    }
+
+    useEffect(() => {   
+        
+        getSession();
+
+        if(role === "customer"){
+            axios.get(`${JPA_URL}/${email}/get/bookings/reserver`)
+            .then((res)=> {
+                console.log(res)
+                setData(res.data)
+            })
+        }
+        else{
+            axios.get(`${JPA_URL}/${email}/get/bookings/provider`)
+            .then((res)=> {
+                console.log(res)
+                setData(res.data)
+            })
+
+        }
+       
     }, [])
 
     const handleCancel = (id, start, end, date) => {
