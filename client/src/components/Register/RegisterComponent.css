@@ -33,6 +33,8 @@ h1{
     background-color: #DCCEDF;
     width: 80%;
     padding: 20px;
+    -webkit-box-shadow: 5px 5px 12px 1px rgba(0,0,0,0.45); 
+box-shadow: 5px 5px 12px 1px rgba(0,0,0,0.45);
     
 }
 
@@ -56,6 +58,8 @@ h1{
     background: #986DEA;
     border: solid 1px #C99090;
     width: 80px;
+    -webkit-box-shadow: 5px 5px 12px 1px rgba(0,0,0,0.45); 
+box-shadow: 5px 5px 12px 1px rgba(0,0,0,0.45);
 }
 
 .register-form-wrap{

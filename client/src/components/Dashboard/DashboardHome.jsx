@@ -20,6 +20,9 @@ const CalendarWrap = styled.div`
 const RowWrap = styled.div`
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 `
 
 function DashboardHome() {

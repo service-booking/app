@@ -1,9 +1,12 @@
-import React from 'react'
+import React , {useState, useEffect} from 'react'
 import styled from 'styled-components';
 import {Link} from 'react-router-dom';
 import AuthenticationService from '../Authentication/AuthenticationService.js';
 import {useHistory, useLocation} from "react-router-dom";
 import defaultPic from '../Image/default.png'; 
+import axios from 'axios';
+import { JPA_URL } from '../../Constants'
+
 
 
 const Nav = styled.nav`
@@ -49,6 +52,8 @@ const ProfileDiv = styled.img`
 `
 
 const Navbar = () => {
+    const [data, setData] = useState([]);
+    let email = sessionStorage.getItem("authenticatedUser")
 
     let history = useHistory();
 
@@ -59,10 +64,17 @@ const Navbar = () => {
 
     const role = sessionStorage.getItem('role')
 
+    useEffect(() =>{
+        axios.get(`${JPA_URL}/${email}`)
+        .then((res)=>{
+            setData(res.data)
+        })
+    },[])
+
 
     return (
         <Nav>
-            <NavLink to="/profile"><ProfileDiv src ={defaultPic} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
+            <NavLink to="/profile"><ProfileDiv src ={data.profile} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
             <NavLink to="/dashboard">Home</NavLink>
             {role=== "service" && <NavLink to="/service">My service</NavLink>}
             <NavLink to="/bookings">My Bookings</NavLink>

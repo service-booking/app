@@ -104,28 +104,33 @@ function Register_service() {
             >
                 {({isSubmitting, status, handleChange, values}) => (
                     <Form className="form">
-                        <div className="flex">
+                        <div>
                             <Row>
                                 <div className="label-input">
-                                    <label>First name</label>
-                                    <Field
-                                        className="register-input"
-                                        name="firstName"
-                                        onChange={handleChange}
-                                        value={values.firstName}
-                                    />
-                                    <ErrorMessage className="fail" name="firstName" component='div'/>
+                                    <div display="flex" flex-direction="column">
+                                        <label>First name</label>
+                                        <Field
+                                            className="register-input"
+                                            name="firstName"
+                                            onChange={handleChange}
+                                            value={values.firstName}
+                                        />
+                                        <ErrorMessage className="fail" name="firstName" component='div'/>
+                                    </div>
+                                    
                                 </div>
                             </Row>
                             <Row>
                                 <div className="label-input">
-                                    <label>Last name</label>
-                                    <Field
-                                        className="register-input"
-                                        name="lastName"
-                                        onChange={handleChange}
-                                        value={values.lastName}
-                                    />
+                                    <div display="flex" flex-direction="column">
+                                        <label>Last name</label>
+                                        <Field
+                                            className="register-input"
+                                            name="lastName"
+                                            onChange={handleChange}
+                                            value={values.lastName}
+                                        />
+                                    </div>
                                 </div>
                             </Row>
                             <ErrorMessage className="fail" name="lastName" component='div'/>

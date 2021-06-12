@@ -7,6 +7,7 @@ import {Col, Row, Container, Button} from 'react-bootstrap';
 import axios from 'axios';
 import { JPA_URL } from '../../Constants';
 import DateTimePicker from 'react-datetime-picker';
+import { useHistory } from 'react-router-dom';
 
 
 
@@ -79,6 +80,8 @@ function SearchMain() {
     const [error, setError] = useState(false);
     const [endBookingTime, setBookingEndTime] = useState("");
 
+    let history = useHistory();
+
 
     const displayOverlay = (id) =>{
         setOn(true)
@@ -124,18 +127,18 @@ function SearchMain() {
                 </h1>
                 <div className="time-slot">
                     {error === true &&<div>No available booking time slots</div>}
-                    {
+                    { availableTimes != "" &&
                         availableTimes.map((time) => 
                         
                             <div>
-                                <input type="radio" name="time-slot"  onClick={()=> handleTimes(time.startTime, time.endTime)} id={time.startTime}/> 
-                                <label for={time.startTime}>{time.startTime} - {time.endTime}</label>
+                                <input class="available-times" type="radio" name="time-slot"  onClick={()=> handleTimes(time.startTime, time.endTime)} id={time.startTime}/> 
+                                <label  class="available-times" for={time.startTime}>{time.startTime} - {time.endTime}</label>
                             </div>
                     )}
                 </div>
                 
                 <div>
-                    <button className="booking-btn" onClick={() => handleBooking()}>Book</button>
+                    <button className="booking-btn" disabled={bookingTime===""} onClick={() => handleBooking()}>Book</button>
                     <button className="booking-btn" onClick={() => close()}>Cancel</button>
                 </div>
                 
@@ -158,16 +161,15 @@ function SearchMain() {
                     + MyDate.getFullYear();
         
         setBookingDate(MyDateString)
-        console.log(MyDateString)
 
         axios.post(`${JPA_URL}/${email}/get/available/bookings/${currentId}`,date)
         .then((res)=>{
-            console.log(res)
             setError(false)
             setAvailableTimes(res.data)
         })
         .catch((err) =>{
             setError(true)
+            setAvailableTimes("")
             //display no available time slot on this day 
         })
     }
@@ -197,7 +199,8 @@ function SearchMain() {
         .then((res) =>{
             //redirect or close form    
             console.log("booking is made !")
-            setTimeout(() => setOn(false), 3000)
+            setTimeout(() => setOn(false), 2000)
+            setTimeout(() => history.push('/dashboard'), 3000)
         })
     }
 
