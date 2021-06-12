@@ -7,6 +7,7 @@ import profile from './profile.css'
 import {Formik, Form, Field, ErrorMessage} from 'formik'
 import defaultPic from '../Image/default.png'; 
 import Workinghours from '../Workinghours/workinghours'
+import {useHistory, useLocation} from "react-router-dom";
 
 const Main = styled.div`
     display: flex;
@@ -91,13 +92,14 @@ function Profile() {
     const [newPw, setNewPw] = useState('');
     const[message, setMessage] = useState('');
     const [on, setOn] = useState(false);
-
+    
+    let history = useHistory();
 
     //files uploads states 
 
     const [selectedFiles, setSelectedFiles] = useState(undefined);
-    const [currentFile, setCurrentFile] = useState(undefined);
-    const [fileInfos, setFileInfos] = useState([]);
+    
+    let output={};
 
     let sent = false;
 
@@ -118,16 +120,19 @@ function Profile() {
         }
         axios.post(`${JPA_URL}/${email}/${oldPw}/update`, obj)
         .then((res)=> {
-            if(res.data === "true"){
+            if(res.data === true){
                 setOldPw("")
                 setNewPw("")
-                setTimeout(()=> {setMessage("Password Changed!")}, 2000)
-                setTimeout(()=> {setMessage("")}, 2000)
+                setTimeout(()=> {setMessage("Password Changed! you'll be logged out")}, 3000)
+                
+                setTimeout(()=> {history.push('/')}, 2000)
+                
 
             }
             else{console.log(res)
                 console.log("old password is wrong")
-                setTimeout(()=> {setMessage("Old password is incorrect!")}, 2000)
+                setTimeout(()=> {setMessage("Old password is incorrect!")}, 1000)
+                
             }
             
         })
@@ -151,15 +156,6 @@ function Profile() {
      },[])
 
 
-     
-    //  const selectFile = (event) => {
-    //      if(event != undefined){
-    //         setSelectedFiles(event.target.files);
-    //         console.log(selectedFiles)
-    //      }
-        
-    //   };
-
     const handleFile= (e) => {
         setSelectedFiles(e.target.files[0])
         console.log(e.target.files[0])
@@ -178,6 +174,11 @@ function Profile() {
         axios.post(`${JPA_URL}/${email}/profile/picture/upload`, data)
         .then((response) => {
             console.log(response.data);
+            axios.get(`${JPA_URL}/${email}`)
+            .then((res)=>{
+                console.log(res)
+                setData(res.data)
+            })
 
         }).catch(function (error) {
             console.log(error);
@@ -220,17 +221,23 @@ function Profile() {
                             }}
 
                             onSubmit = {async(values,actions) => {
+                                output ={}
                                 const data ={
-                                    firstName: values.firstName.trim(),
-                                    lastName: values.lastName.trim(),
-                                    address: values.address.trim(),
-                                    media: values.media.trim(),
-                                    about: values.about.trim()
+                                    firstName: values.firstName,
+                                    lastName: values.lastName,
+                                    address: values.address,
+                                    media: values.media,
+                                    about: values.about,
                                 }
 
                                 axios.post(`${JPA_URL}/${email}`, data)
                                 .then((res)=> {
-
+                                    console.log('successfully updated')
+                                    output.message = "Successfully updated!"
+                                    setTimeout(() => output.message ="", 3000);
+                                })
+                                .catch((err)=>{
+                                    console.log(err)
                                 })
                             }}
                         >
@@ -246,6 +253,7 @@ function Profile() {
                                     <textarea className="text" type="textarea" name="about" value={values.about} onChange={handleChange}></textarea>
                                     <div>
                                         <SaveBtn type="submit" disabled={isSubmitting}>Save</SaveBtn>
+                                        <div>{output.message}</div>
                                     </div>
                                 </Form>
 

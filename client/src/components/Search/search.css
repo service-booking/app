@@ -86,7 +86,7 @@ input[type="radio"]{
     display:none;
 }
 
-label{
+label.available-times{
     position: relative;
     color: #7b77bd;
     padding: 13px;
@@ -96,7 +96,7 @@ label{
     cursor: pointer;
 }
 
-input[type="radio"]:checked+ label{
+input[type="radio"].available-times:checked+ label.available-times{
     background: #7b77bd;
     color:white;
 }

@@ -6,6 +6,7 @@ import {useHistory, useLocation} from "react-router-dom";
 import { checkServerIdentity } from 'tls';
 import axios from 'axios';
 import { JPA_URL } from '../../Constants';
+import {Row, FormGroup} from 'react-bootstrap';
 
 function Register_service() {
    
@@ -15,10 +16,13 @@ function Register_service() {
 
     const handleCheckBox = (day) =>{
         if(list.includes(day)){
-            list.pop(day)
+            var newList ;
+            newList = list.pop(day)
+            setList(newList)
         }
         else{
             list.push(day)
+            setList(list)
         }
 
         console.log(list)
@@ -187,7 +191,7 @@ function Register_service() {
                     <Form className="form">
                         <div>
                             <div className="label-input">
-                                <div display="flex" flex-direction="column">
+                                <div>
                                     <label>First name</label>
                                     <Field
                                         className="register-input"
@@ -210,7 +214,8 @@ function Register_service() {
                             
                             <ErrorMessage className="fail" name="lastName" component='div'/>
 
-                            <div className="label-input">
+                            <FormGroup>
+                                <div display="flex">
                                 <label>Business name</label>
                                 <Field
                                     className="register-input"
@@ -218,7 +223,10 @@ function Register_service() {
                                     onChange={handleChange}
                                     value={values.businessName}
                                 />
-                            </div>
+
+                                </div>
+                                
+                            </FormGroup>
                             <ErrorMessage className="fail" name="businessName" component='div'/>
 
                             <div className="label-input">
@@ -262,7 +270,7 @@ function Register_service() {
                             <ErrorMessage className="fail" name="address" component='div'/>
                             
                             <div className="label-input">
-                                <div display="flex" flex-direction="column">
+                                <div>
                                     <label>Social Media Handler</label>
                                     <Field
                                         className="register-input"
@@ -290,7 +298,7 @@ function Register_service() {
                             <button className="submit-btn" type="submit" disabled={isSubmitting}>{isSubmitting? "Submitting..." : "Submit"}</button>
                         </div>
                         <div>
-                            <h1>Operating hours</h1>
+                            <h4>Operating hours</h4>
                             <label>
                                 <Field name="days" type="checkbox" value="monday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                 Monday

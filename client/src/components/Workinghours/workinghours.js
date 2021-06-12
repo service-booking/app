@@ -142,80 +142,80 @@ function Workinghours() {
                         
                             <div>
                                 <h1>Operating hours</h1>
-                                <label>
+                                <label class="no-padding">
                                     <Field name="days" type="checkbox" value="monday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                     Monday
                                 </label>
                                 <div>
-                                    <label>Hours from </label>
+                                    <label class="no-padding">Hours from </label>
                                     <Field name="mondayStart" onChange={handleChange} value={values.mondayStart} disabled={!(list.includes("monday"))}/>
-                                    <label>to </label>
+                                    <label class="no-padding">to </label>
                                     <Field name="mondayEnd" onChange={handleChange} value={values.mondayEnd} disabled={!(list.includes("monday"))}/>
         
                                 </div>
-                                <label>
+                                <label class="no-padding">
                                     <Field name="days" type="checkbox" value="tuesday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                     Tuesday
                                 </label>
                                 <div>
-                                    <label>Hours from </label>
+                                    <label class="no-padding">Hours from </label>
                                     <Field name="tuesdayStart" onChange={handleChange} value={values.tuesdayStart} disabled={!(list.includes("tuesday"))}/>
-                                    <label>to </label>
+                                    <label class="no-padding">to </label>
                                     <Field name="tuesdayEnd" onChange={handleChange} value={values.tuesdayEnd} disabled={!(list.includes("tuesday"))}/>
         
                                 </div>
-                                <label>
+                                <label class="no-padding">
                                     <Field name="days" type="checkbox" value="wednesday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                     Wednesday
                                 </label>
                                 <div>
-                                    <label>Hours from </label>
+                                    <label class="no-padding">Hours from </label>
                                     <Field name="wednesdayStart" onChange={handleChange} value={values.wednesdayStart} disabled={!(list.includes("wednesday"))}/>
-                                    <label>to </label>
+                                    <label class="no-padding">to </label>
                                     <Field name="wednesdayEnd" onChange={handleChange} value={values.wednesdayEnd} disabled={!(list.includes("wednesday"))}/>
         
                                 </div>
-                                <label>
+                                <label class="no-padding">
                                     <Field name="days" type="checkbox" value="thursday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                     Thursday
                                 </label>
                                 <div>
-                                    <label>Hours from </label>
+                                    <label class="no-padding">Hours from </label>
                                     <Field name="thursdayStart" onChange={handleChange} value={values.thursdayStart} disabled={!(list.includes("thursday"))}/>
-                                    <label>to </label>
+                                    <label class="no-padding">to </label>
                                     <Field name="thursdayEnd" onChange={handleChange} value={values.thursdayEnd} disabled={!(list.includes("thursday"))}/>
         
                                 </div>
-                                <label>
+                                <label class="no-padding">
                                     <Field name="days" type="checkbox" value="friday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                     Friday
                                 </label>
                                 <div>
-                                    <label>Hours from </label>
+                                    <label class="no-padding">Hours from </label>
                                     <Field name="fridayStart" onChange={handleChange} value={values.fridayStart} disabled={!(list.includes("friday"))}/>
-                                    <label>to </label>
+                                    <label class="no-padding">to </label>
                                     <Field name="fridayEnd" onChange={handleChange} value={values.fridayEnd} disabled={!(list.includes("friday"))}/>
         
                                 </div>
-                                <label>
+                                <label class="no-padding">
                                     <Field name="days" type="checkbox" value="saturday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                     Saturday
                                 </label>
                                 <div>
-                                    <label>Hours from </label>
+                                    <label class="no-padding">Hours from </label>
                                     <Field name="saturdayStart" onChange={handleChange} value={values.saturdayStart} disabled={!(list.includes("saturday"))}/>
-                                    <label>to </label>
+                                    <label class="no-padding">to </label>
                                     <Field name="saturdayEnd" onChange={handleChange} value={values.saturdayEnd} disabled={!(list.includes("saturday"))}/>
         
                                 </div>
-                                <label>
+                                <label class="no-padding">
                                     <Field name="days" type="checkbox" value="sunday" onChange={(e) => handleCheckBox(e.target.value)}/>
                                     Sunday
                                 </label>
                                 <div>
-                                    <label>Hours from </label>
+                                    <label class="no-padding">Hours from </label>
                                     <Field name="sundayStart" onChange={handleChange} value={values.sundayStart} disabled={!(list.includes("sunday"))}/>
-                                    <label>to </label>
+                                    <label class="no-padding">to </label>
                                     <Field name="sundayEnd" onChange={handleChange} value={values.sundayEnd} disabled={!(list.includes("sunday"))}/>
                                 </div>
                                 <button className="submit-btn" type="submit" disabled={isSubmitting}>{isSubmitting? "Submitting..." : "Submit"}</button>
