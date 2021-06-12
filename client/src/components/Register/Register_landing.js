@@ -8,7 +8,7 @@ function Register_landing() {
         <>
 
             <div className="landing-container">
-                <h1>Are you registering for a </h1>
+                <h1>Are you registering as a </h1>
                     <div>
                         <Link className="landing-link" to="/register-customer">Normal Customer</Link>
                     </div>

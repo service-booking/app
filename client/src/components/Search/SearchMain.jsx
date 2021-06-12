@@ -35,7 +35,7 @@ const WhiteBar = styled.div`
     background: white;
     height: 50px;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 `
 const ServiceTitle = styled.h1`
@@ -91,7 +91,7 @@ function SearchMain() {
 
     
     useEffect(() => {   
-        axios.get(`${JPA_URL}/${email}/get/services`)
+        axios.get(`${JPA_URL}/get/services`)
         .then((res)=> {
             console.log(res)
             setData(res.data)
@@ -207,15 +207,18 @@ function SearchMain() {
             <OuterDiv>
                 <WhiteDiv>
                     <WhiteBar>
-                        <input className="search-input" onChange={(e) => setSearchString(e.target.value)}/>
-                        <button className="search-btn" onClick={()=> handleSubmit()}>Search</button>
+                        <h3>NEService</h3>
+                        <div>
+                            <input className="search-input" onChange={(e) => setSearchString(e.target.value)}/>
+                            <button className="search-btn" onClick={()=> handleSubmit()}>Search</button>
+                        </div>
                     </WhiteBar>
                     <WhiteWrap>
                         <Container className="contain">
                             {data.length === 0? <div>No results found</div> : ``}
                             {
                                 data.map((ele) =>
-                                    <Row className="bubble">
+                                    <Row className="bubbleSearch">
                                         <Col>
                                             <ServiceTitle>{ele.title}</ServiceTitle>
                                             <Detail>Description :{ele.desc}</Detail>

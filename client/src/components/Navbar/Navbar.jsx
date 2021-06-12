@@ -42,9 +42,12 @@ const LogoutBtn = styled.button`
     color: #BDACE6;
     font-family: 'Raleway';
     text-decoration: none;
+    width: 70%;
     margin-top: 10px;
     margin-bottom: 10px;
     background: none;
+    display: flex;
+    flex-direction: row;
     border: none;
     font-size: 20px;
     &:hover{
@@ -81,11 +84,15 @@ const Navbar = () => {
     return (
         <Nav>
             <NavLink to="/profile"><ProfileDiv src ={data.profilePicture} width="100px" height="100px" className="profile-pic"></ProfileDiv></NavLink>
-            <NavLink to="/dashboard"><div className="icon"><FontAwesomeIcon  icon={faHome}/></div>Home</NavLink>
-            {role && role=== "service" && <NavLink to="/service"><FontAwesomeIcon className="icon" icon={faUser} />Service</NavLink>}
-            <NavLink to="/bookings"><FontAwesomeIcon className="icon" icon={faCalendar} />Bookings</NavLink>
-            {role && role === "customer" && <NavLink to="/search"><FontAwesomeIcon className="icon" icon={faSearch} />Search</NavLink>}
-            <LogoutBtn onClick={() => logOut()}><FontAwesomeIcon className="icon" icon={faSignOutAlt}></FontAwesomeIcon> Log out</LogoutBtn>
+            <NavLink to="/dashboard">
+                <div className="icon">
+                    <FontAwesomeIcon  icon={faHome}/>
+                </div> Home
+            </NavLink>
+            {role && role=== "service" && <NavLink to="/service"><div className="icon"><FontAwesomeIcon className="icon" icon={faUser} /></div>Service</NavLink>}
+            <NavLink to="/bookings"><div className="icon" ><FontAwesomeIcon className="icon" icon={faCalendar} /></div>Bookings</NavLink>
+            {role && role === "customer" && <NavLink to="/search"><div><FontAwesomeIcon className="icon" icon={faSearch} /></div>Search</NavLink>}
+            <LogoutBtn onClick={() => logOut()}><div className="icon"><FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon></div> Log out</LogoutBtn>
             
         </Nav>
 
